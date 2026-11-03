@@ -205,6 +205,46 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 #thanksExplore{background:linear-gradient(100deg,#2563eb,#4f70e8);color:white}
 #thanksClose{background:rgba(31,73,109,.08);border:1px solid rgba(31,73,109,.16);color:#284964}
 @media(max-width:600px){.thanks-letter{padding:28px 22px 24px}.thanks-actions{display:grid;grid-template-columns:1fr}.thanks-actions button{width:100%}}
+
+/* ═════════ REGISTRATION BOARDING PASS COLLECTION ═════════ */
+.pass-library{margin-top:24px;padding-top:22px;border-top:1px solid rgba(32,94,145,.16)}
+.pass-library-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px}
+.pass-library-kicker{display:block;color:#3877a8;font:700 9px Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.pass-library-title{margin:5px 0 0;color:#183653;font:700 20px/1.25 Inter,sans-serif;letter-spacing:-.02em}
+.pass-count{flex:none;padding:7px 10px;border-radius:999px;background:#dceeff;color:#245b8d;font:700 9px Inter,sans-serif;letter-spacing:.1em}
+.pass-library-copy{max-width:none;margin:0 0 13px;color:#587087;font:400 12px/1.6 Inter,sans-serif;opacity:1}
+.pass-list{display:grid;gap:12px}
+.pass-empty{padding:18px 15px;border:1px dashed #b6cadd;border-radius:13px;background:rgba(255,255,255,.58);color:#647d92;text-align:center;font:400 12px/1.6 Inter,sans-serif}
+.boarding-pass{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 142px;overflow:hidden;border:1px solid #c6d7e6;border-radius:15px;background:#fff;color:#183653;box-shadow:0 8px 22px rgba(34,78,116,.08)}
+.pass-main{position:relative;min-width:0;padding:16px 18px 14px}
+.pass-main:before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#2a83c5,#7da9e9,#f3a36d)}
+.pass-brandline{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#47718f;font:700 9px Inter,sans-serif;letter-spacing:.13em}
+.pass-status{flex:none;padding:5px 8px;border-radius:999px;background:#e5f5ed;color:#26704b;font:700 8px Inter,sans-serif;letter-spacing:.08em}
+.pass-type{margin-top:14px;color:#6d8ba4;font:700 8px Inter,sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.pass-event{margin:5px 0 13px;color:#153754;font:700 clamp(17px,3vw,21px)/1.2 Inter,sans-serif;overflow-wrap:anywhere}
+.pass-fields{display:grid;grid-template-columns:1.25fr .65fr .65fr;gap:10px}
+.pass-field small{display:block;color:#8298aa;font:700 8px Inter,sans-serif;letter-spacing:.12em}
+.pass-field b{display:block;margin-top:4px;color:#244967;font:700 11px Inter,sans-serif;overflow-wrap:anywhere}
+.pass-issued{margin-top:13px;padding-top:9px;border-top:1px solid #e5edf4;color:#6c8295;font:400 9px/1.5 Inter,sans-serif}
+.pass-issued strong{color:#385c79;font-weight:700}
+.pass-stub{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 10px;border-left:1px dashed #aec2d4;background:linear-gradient(160deg,#f3f8fc,#e9f1f9);text-align:center}
+.pass-qr{display:block;width:94px;height:94px;padding:5px;border:1px solid #d7e2eb;border-radius:8px;background:#fff;image-rendering:pixelated}
+.pass-stub-label{color:#6f879b;font:700 7px Inter,sans-serif;letter-spacing:.1em}
+.pass-open{color:#256ca4;text-decoration:none;font:700 10px Inter,sans-serif}
+.pass-open:hover{text-decoration:underline}
+.pass-download{padding:7px 10px;border-radius:7px;background:#1e5b8c;color:#fff;font:600 9px Inter,sans-serif;letter-spacing:0;box-shadow:none}
+.pass-download:hover{background:#174a75}
+@media(max-width:540px){
+  .boarding-pass{grid-template-columns:1fr}
+  .pass-stub{display:grid;grid-template-columns:72px 1fr;grid-template-rows:auto auto;justify-items:start;column-gap:12px;border-left:0;border-top:1px dashed #aec2d4;text-align:left;padding:10px 14px}
+  .pass-qr{grid-row:1 / span 2;width:68px;height:68px}
+  .pass-stub-label{align-self:end}
+  .pass-open{align-self:start}
+  .pass-download{grid-column:2;justify-self:start}
+  .pass-fields{grid-template-columns:1.2fr .7fr .7fr;gap:6px}
+  .pass-main{padding:14px 14px 12px 17px}
+}
+
 @media(max-width:600px){
   .rm-foot .rm-actions,.fm-actions{display:grid;grid-template-columns:1fr}
   .rm-primary,.fm-primary,.fm-secondary{width:100%}
@@ -311,6 +351,14 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
     <p>Whether you build, fly, design, solve, compete or cheer from the sidelines, you help make this journey special. We hope you leave with new ideas, brilliant memories and stories worth sharing.</p>
     <p>Keep dreaming beyond the horizon, keep creating, and never stop reaching for the skies. The runway is brighter with you on board. 💙</p>
     <div class="thanks-signoff">With sky-high excitement,<br><b>Team VAIMAANIK</b><br><span>Department of Aeronautical Engineering</span></div>
+    <section class="pass-library" aria-label="Your event boarding passes">
+      <header class="pass-library-head">
+        <div><span class="pass-library-kicker">YOUR FLIGHT COLLECTION</span><h4 class="pass-library-title">Boarding passes</h4></div>
+        <span class="pass-count" id="passCount">0 PASSES</span>
+      </header>
+      <p class="pass-library-copy">Every event you choose earns its own pass. You can collect passes for multiple events here.</p>
+      <div class="pass-list" id="passList"><div class="pass-empty">Your first boarding pass will appear here after you open an event registration form.</div></div>
+    </section>
     <div class="thanks-actions">
       <button id="thanksExplore" type="button">Explore the events ✦</button>
       <button id="thanksClose" type="button">Close letter</button>
@@ -355,10 +403,8 @@ const FORMS={
   ghostProtocol:'https://docs.google.com/forms/d/e/1FAIpQLSfvUsQ1nxxgNH5qwX_TELqx6ZSSftefxWBgcP9uOUUvLUbvQw/viewform?usp=publish-editor',
   bgmi:'https://docs.google.com/forms/d/e/1FAIpQLSeY3RQlUwlfc_Q64tlXlesnORqfyHr2UGYKIx-1np2ufCLByw/viewform?usp=publish-editor',
   checkmate:'https://docs.google.com/forms/d/e/1FAIpQLScf5UX7fcfYqP9Pf_yIlvTbnl1erGZ7QyBhCYEWZRoLp22dlQ/viewform?usp=publish-editor',
-  crashEscape:'',
   aeroLens:'https://docs.google.com/forms/d/e/1FAIpQLSepQGhKN-5rJvsLLGpPutCWmDj9rWqHRSUHTW2cQgnt1iSOXQ/viewform?usp=publish-editor',
   visualRecall:'https://docs.google.com/forms/d/e/1FAIpQLScHapIrF3pngw1pruBnL6DwGdcTBuIhJIJ0Sa5tV_KdZBLmyg/viewform?usp=publish-editor',
-  bisQuiz:''
 };
 
 const CONFIG={
@@ -367,8 +413,7 @@ const CONFIG={
   scrollHint:'Scroll to take off ↓',
 
   formUrl:FORMS.all,                            // common registration link (set in FORMS above)
-  newTab:false,                                  // true = open the form in a new tab
-  redirectDelay:2400,                            // ms to show the boarding pass before redirecting
+  newTab:true,                                   // open each Google Form in a separate browser tab/window
 
   about:{title:'Break through the clouds',text:'A flight of ideas, engineering and imagination. Replace this with your event description.'},
   engine:{title:'Anatomy of thrust',text:'Keep scrolling and the engine comes apart. Hover over any part to see what it does.'},
@@ -525,7 +570,7 @@ Participants must optimise their mission based on fuel efficiency, total delta-v
           `In case of a software, transmitter or system malfunction, the participant must immediately inform the coordinator. Any restart or time adjustment will be at the organizers' discretion.`,
           `The organizers' decision regarding obstacle completion, scoring, qualification and final ranking will be final.`]}]}
     ],
-    nonTechnical:[                                // 7 events
+    nonTechnical:[                                // 5 events after removing BIS activities
       {id:'ghostProtocol',name:'Operation: Ghost Protocol',form:FORMS.ghostProtocol,
         desc:'A five-sector mission of dossiers, ciphers and treasure hunts. Teams of five.',
         meta:[['Team size','Exactly 5'],['Sectors','5'],['Mode','Offline · time-bound']],
@@ -677,10 +722,6 @@ Every clue matters. Every decision counts. One overlooked detail could change th
             `Coordinator's authority: Participants must maintain sportsmanship, keep mobile phones on silent and away from the board, and refrain from external coaching. The Chess Coordinator's decision on point counts and rule interpretations is final.`]}
         ]}]},
 
-      {id:'crashEscape',name:'BIS Crash Escape',form:FORMS.crashEscape,
-        desc:'Details and rules will be announced soon.',
-        meta:[],about:'',sections:[]},
-
       {id:'aeroLens',name:'AeroLens',form:FORMS.aeroLens,
         desc:'Capture the colours and moments of VAIMAANIK through photo and video.',
         meta:[['Team size','Up to 2'],['Category','Photography & videography']],
@@ -706,10 +747,6 @@ Every clue matters. Every decision counts. One overlooked detail could change th
           `After viewing the clip, teams will be given a set of questions based on what they watched. All answers must be submitted within the allotted time.`,
           `Different teams will receive different video clips and corresponding sets of questions.`,
           `Points will be awarded based on the answers submitted and the answer matrix prepared by the organizers before the event.`]}]},
-
-      {id:'bisQuiz',name:'BIS Quiz',form:FORMS.bisQuiz,
-        desc:'Details and rules will be announced soon.',
-        meta:[],about:'',sections:[]}
     ]
   },
 
@@ -1120,32 +1157,119 @@ const tip=$('tip'),ray=new THREE.Raycaster(),mouse={x:0,y:0};let hov=null,lastHo
   tip.style.left=Math.min(e.clientX+18,innerWidth-270)+'px';tip.style.top=Math.min(e.clientY+18,innerHeight-190)+'px'}));
 
 /* ═══════════════════════════════════════════════════════════
-   9. REGISTRATION — 3D boarding pass, then redirect to Google Forms
+   9. REGISTRATION — separate Google Form tab + saved boarding passes
    ═══════════════════════════════════════════════════════════ */
-let pass=null,passT=0,busy=false;
+const PASS_STORAGE_KEY='vimaanik_event_boarding_passes_v1';
+function readBoardingPasses(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(PASS_STORAGE_KEY)||'[]');
+    return Array.isArray(saved)?saved.filter(p=>p&&typeof p.id==='string'&&typeof p.event==='string'&&typeof p.url==='string'&&/^https:\/\/docs\.google\.com\/forms\//i.test(p.url)).slice(0,100):[];
+  }catch(e){return []}
+}
+let boardingPasses=readBoardingPasses();
+function persistBoardingPasses(){try{localStorage.setItem(PASS_STORAGE_KEY,JSON.stringify(boardingPasses.slice(0,100)))}catch(e){}}
+function createPassCode(){
+  const stamp=Date.now().toString(36).toUpperCase().slice(-5);
+  const random=Math.random().toString(36).slice(2,6).toUpperCase();
+  return 'VM-'+stamp+'-'+random;
+}
+function issueBoardingPass(label,url,opened){
+  const record={
+    id:createPassCode(),event:String(label||'Event'),url:String(url),
+    gate:'G'+(1+Math.floor(Math.random()*9)),
+    seat:String(1+Math.floor(Math.random()*30)).padStart(2,'0')+'-'+String.fromCharCode(65+Math.floor(Math.random()*6)),
+    issuedAt:new Date().toISOString(),opened:!!opened
+  };
+  boardingPasses.unshift(record);
+  boardingPasses=boardingPasses.slice(0,100);
+  persistBoardingPasses();
+  renderBoardingPasses();
+  return record;
+}
+function safePassUrl(url){return /^https:\/\/docs\.google\.com\/forms\//i.test(String(url||''))?String(url):'#'}
+function passEscape(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function makePassQr(canvas,url){
+  if(typeof qrcode!=='function')return;
+  try{
+    const qr=qrcode(0,'M');qr.addData(url);qr.make();
+    const count=qr.getModuleCount(),margin=4,total=count+margin*2,cell=Math.floor(94/total),size=cell*total;
+    canvas.width=size;canvas.height=size;const ctx=canvas.getContext('2d');
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,size,size);ctx.fillStyle='#101d2a';
+    for(let r=0;r<count;r++)for(let c=0;c<count;c++)if(qr.isDark(r,c))ctx.fillRect((c+margin)*cell,(r+margin)*cell,cell,cell);
+  }catch(e){canvas.style.display='none'}
+}
+function renderBoardingPasses(){
+  const root=$('passList'),count=$('passCount');
+  if(!root||!count)return;
+  count.textContent=boardingPasses.length+' '+(boardingPasses.length===1?'PASS':'PASSES');
+  root.innerHTML='';
+  if(!boardingPasses.length){
+    const empty=document.createElement('div');empty.className='pass-empty';
+    empty.textContent='Your first boarding pass will appear here after you open an event registration form.';
+    root.appendChild(empty);return;
+  }
+  boardingPasses.forEach(p=>{
+    const url=safePassUrl(p.url),date=new Date(p.issuedAt);
+    const dateText=isNaN(date.getTime())?'Date unavailable':date.toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'});
+    const card=document.createElement('article');card.className='boarding-pass';
+    card.innerHTML=`
+      <div class="pass-main">
+        <div class="pass-brandline"><span>VAIMAANIK · 2026</span><span class="pass-status">✦ ACCESS PASS</span></div>
+        <div class="pass-type">EVENT BOARDING PASS</div>
+        <h5 class="pass-event">${passEscape(p.event)}</h5>
+        <div class="pass-fields">
+          <div class="pass-field"><small>PASS ID</small><b>${passEscape(p.id)}</b></div>
+          <div class="pass-field"><small>GATE</small><b>${passEscape(p.gate)}</b></div>
+          <div class="pass-field"><small>SEAT</small><b>${passEscape(p.seat)}</b></div>
+        </div>
+        <div class="pass-issued"><strong>${p.opened?'A new browser tab was requested.':'Your browser may have blocked the new tab.'}</strong><br>Complete and submit the Google Form to finish registration · Issued ${passEscape(dateText)}</div>
+      </div>
+      <div class="pass-stub">
+        <canvas class="pass-qr" width="94" height="94" aria-label="QR code for the event registration form"></canvas>
+        <span class="pass-stub-label">SCAN TO REOPEN FORM</span>
+        <a class="pass-open" href="${passEscape(url)}" target="_blank" rel="noopener noreferrer">Open Google Form ↗</a>
+        <button class="pass-download" type="button">Download pass ↓</button>
+      </div>`;
+    makePassQr(card.querySelector('.pass-qr'),url);
+    card.querySelector('.pass-download').addEventListener('click',()=>downloadBoardingPass(p.id));
+    root.appendChild(card);
+  });
+}
+renderBoardingPasses();
+function drawQrOnCanvas(ctx,url,x,y,size){
+  if(typeof qrcode!=='function')return;
+  try{
+    const qr=qrcode(0,'M');qr.addData(url);qr.make();const n=qr.getModuleCount(),margin=4,cell=size/(n+margin*2);
+    ctx.fillStyle='#fff';ctx.fillRect(x,y,size,size);ctx.fillStyle='#102033';
+    for(let r=0;r<n;r++)for(let c=0;c<n;c++)if(qr.isDark(r,c))ctx.fillRect(x+(c+margin)*cell,y+(r+margin)*cell,Math.ceil(cell),Math.ceil(cell));
+  }catch(e){}
+}
+function downloadBoardingPass(id){
+  const p=boardingPasses.find(x=>x.id===id);if(!p)return;
+  const c=document.createElement('canvas');c.width=1600;c.height=640;const x=c.getContext('2d');
+  x.fillStyle='#edf4fa';x.fillRect(0,0,c.width,c.height);
+  x.fillStyle='#fff';x.fillRect(28,28,1544,584);
+  x.fillStyle='#1e5b8c';x.fillRect(28,28,10,584);x.fillStyle='#f0a16f';x.fillRect(38,28,1534,9);
+  x.fillStyle='#527894';x.font='700 24px Arial';x.fillText('VAIMAANIK  ·  2026  ·  DEPARTMENT OF AERONAUTICAL ENGINEERING',78,104);
+  x.fillStyle='#7b91a4';x.font='700 18px Arial';x.fillText('EVENT BOARDING PASS',78,174);
+  x.fillStyle='#153754';x.font='700 54px Arial';x.fillText(p.event.slice(0,32),78,250);
+  const fields=[['PASS ID',p.id],['GATE',p.gate],['SEAT',p.seat],['ISSUED',new Date(p.issuedAt).toLocaleString('en-IN')]];
+  fields.forEach((f,i)=>{const xx=78+i*330;x.fillStyle='#8298aa';x.font='700 17px Arial';x.fillText(f[0],xx,344);x.fillStyle='#244967';x.font='700 28px Arial';x.fillText(String(f[1]).slice(0,25),xx,390)});
+  x.setLineDash([9,10]);x.strokeStyle='#b0c5d8';x.lineWidth=3;x.beginPath();x.moveTo(1190,60);x.lineTo(1190,580);x.stroke();x.setLineDash([]);
+  drawQrOnCanvas(x,safePassUrl(p.url),1270,170,220);
+  x.fillStyle='#6f879b';x.font='700 16px Arial';x.textAlign='center';x.fillText('SCAN TO REOPEN FORM',1380,430);x.textAlign='left';
+  x.fillStyle='#405a72';x.font='20px Arial';x.fillText('Complete and submit the Google Form to finish registration.',78,520);
+  x.fillStyle='#3877a8';x.font='700 18px Arial';x.fillText('TEAM VAIMAANIK  ·  KEEP REACHING FOR THE SKIES',78,570);
+  const a=document.createElement('a');a.download='VAIMAANIK-'+p.id+'.png';a.href=c.toDataURL('image/png');a.click();
+}
 function register(url,label){
-  if(busy)return;if(!url||/PASTE_YOUR/i.test(url)){alert('Add a Google Forms URL in the FORMS section at the top of this file.');return}
-  busy=true;closeDesk();showPass(label,url);
-  if(CONFIG.newTab){window.open(url,'_blank');setTimeout(()=>{cam.remove(pass);pass=null;busy=false},CONFIG.redirectDelay+1500)}
-  else setTimeout(()=>{location.href=url},CONFIG.redirectDelay)}
-function showPass(label,url){
-  const c=document.createElement('canvas');c.width=1024;c.height=440;const x=c.getContext('2d');
-  const g=x.createLinearGradient(0,0,1024,440);g.addColorStop(0,'#0b2a66');g.addColorStop(1,'#050a1c');x.fillStyle=g;x.fillRect(0,0,1024,440);
-  x.fillStyle='#ff8a3c';x.fillRect(0,0,1024,14);x.fillStyle='#fff';x.font='900 54px Orbitron,sans-serif';x.fillText(CONFIG.name,40,95);
-  x.fillStyle='#8fd8ff';x.font='500 22px Rajdhani,sans-serif';x.fillText('Boarding pass · '+CONFIG.dept,40,130);
-  const id='VM'+Math.random().toString(36).slice(2,7).toUpperCase(),seat=(1+Math.random()*30|0)+'ABCDEF'[Math.random()*6|0],gate='G'+(1+Math.random()*9|0);
-  const fld=(l,v,px,py)=>{x.fillStyle='#8fd8ff';x.font='500 20px Rajdhani,sans-serif';x.fillText(l,px,py);x.fillStyle='#fff';x.font='700 32px Orbitron,sans-serif';x.fillText(v,px,py+40)};
-  fld('Event',label.toUpperCase().slice(0,22),40,200);fld('Flight',id,40,310);fld('Gate',gate,330,310);fld('Seat',seat,480,310);
-  x.fillStyle='#ffb27a';x.font='600 22px Rajdhani,sans-serif';x.fillText('Opening the registration form…',40,415);
-  x.setLineDash([8,8]);x.strokeStyle='#4cc9ff';x.beginPath();x.moveTo(740,30);x.lineTo(740,410);x.stroke();
-  const q=qrcode(0,'L');q.addData(url);q.make();const n=q.getModuleCount(),s=Math.max(2,Math.floor(230/n)),sz=s*n;
-  x.fillStyle='#fff';x.fillRect(764,60,sz+24,sz+24);x.fillStyle='#000';for(let r=0;r<n;r++)for(let k=0;k<n;k++)if(q.isDark(r,k))x.fillRect(776+k*s,72+r*s,s,s);
-  const b=document.createElement('canvas');b.width=1024;b.height=440;const y=b.getContext('2d');y.fillStyle='#050a1c';y.fillRect(0,0,1024,440);
-  y.strokeStyle='#4cc9ff';y.lineWidth=4;y.strokeRect(20,20,984,400);y.fillStyle='#fff';y.font='900 90px Orbitron,sans-serif';y.textAlign='center';y.fillText(CONFIG.name,512,240);
-  const ed=new THREE.MeshBasicMaterial({color:0x4cc9ff});
-  pass=new THREE.Mesh(new THREE.BoxGeometry(5.6,2.4,.06),[ed,ed,ed,ed,new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(c)}),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(b)})]);
-  pass.position.z=-6.5;cam.add(pass);passT=0}
-
+  if(!url||/PASTE_YOUR/i.test(url)){alert('Add a Google Forms URL in the FORMS section at the top of this file.');return}
+  closeDesk();
+  // This call runs directly from the participant's slider interaction so browsers can honour the new-tab request.
+  let opened=false;
+  try{const formWindow=window.open(url,'_blank');opened=!!formWindow;if(formWindow)formWindow.opener=null}catch(e){opened=false}
+  issueBoardingPass(label,url,opened);
+}
 /* ═══════════════════════════════════════════════════════════
    10. MISSION CONTROL — countdown, visitor counter, footfall
    ═══════════════════════════════════════════════════════════ */
@@ -1217,7 +1341,7 @@ function openDesk(o=true){desk.classList.toggle('open',o)}
 function closeDesk(){openDesk(false)}
 deskBtn.onclick=()=>openDesk(!desk.classList.contains('open'));$('deskX').onclick=closeDesk;
 addEventListener('keydown',e=>{if(e.key==='Escape')closeDesk()});
-function deskTick(v){const on=v>.8&&!pass;deskBtn.classList.toggle('on',on);if(!on)closeDesk()}
+function deskTick(v){const on=v>.8;deskBtn.classList.toggle('on',on);if(!on)closeDesk()}
 
 /* drag the window by its title bar */
 (function(){let d=null;const h=$('deskHead');
@@ -1270,11 +1394,11 @@ function openGateway(){
   pendingFormLabel=rmCur?rmCur.name:CONFIG.register.label;
   $('fmEvent').textContent=pendingFormLabel;
   $('fmFormType').textContent=(rmCur&&rmCur.form)?'Event-specific Google Form':'Common Google Form';
-  $('fmCopy').textContent='Your rules briefing is complete. Your registration form is ready for departure.';
+  $('fmCopy').textContent='Your rules briefing is complete. Slide to open the official Google Form in a separate browser tab or window. A separate boarding pass will be saved in your Clear for takeoff window.';
   const ready=!!pendingFormUrl&&!/PASTE_YOUR/i.test(pendingFormUrl);
   fmDone=false;setFmSlide(0);fmRange.disabled=!ready;fmSlide.classList.toggle('off',!ready);
   $('fmNote').className=ready?'':'err';
-  $('fmNote').textContent=ready?'Slide the aircraft handle from left to right to open your Google Forms registration.':M.noLink;
+  $('fmNote').textContent=ready?'Slide the aircraft handle from left to right. Your form opens separately and your boarding pass is saved.':M.noLink;
   rmWin.classList.remove('open');rmWin.setAttribute('aria-hidden','true');
   fmWin.classList.add('open');fmWin.setAttribute('aria-hidden','false');
   $('fmBackRules').focus()}
@@ -1284,8 +1408,14 @@ function launchGoogleForm(){
   if(fmDone)return;
   if(!pendingFormUrl||/PASTE_YOUR/i.test(pendingFormUrl)){$('fmNote').className='err';$('fmNote').textContent=M.noLink;setFmSlide(0);return}
   fmDone=true;setFmSlide(100);closeGateway();closeRules();register(pendingFormUrl,pendingFormLabel)}
-fmRange.addEventListener('input',()=>{fmSlide.style.setProperty('--p',fmRange.value);if(+fmRange.value>=98)launchGoogleForm()});
-['pointerup','touchend','mouseup','change'].forEach(n=>fmRange.addEventListener(n,()=>{if(!fmDone&&+fmRange.value<98)springFmSlide()}));
+fmRange.addEventListener('input',()=>{fmSlide.style.setProperty('--p',fmRange.value)});
+function finishFmSlide(){
+  if(fmDone||fmRange.disabled)return;
+  if(+fmRange.value>=98)launchGoogleForm();
+  else springFmSlide();
+}
+// Open the form on release, within the participant's direct pointer/touch gesture.
+['pointerup','touchend','mouseup','change'].forEach(n=>fmRange.addEventListener(n,finishFmSlide));
 fmRange.addEventListener('keydown',e=>{if(e.key==='Enter'&&!fmRange.disabled)launchGoogleForm()});
 rmAck.onchange=syncAck;
 $('rmContinue').onclick=openGateway;
@@ -1295,7 +1425,7 @@ $('fmX').onclick=backToRules;$('fmBack').onclick=backToRules;
 
 /* Thank-you letter for the main Clear for takeoff CTA. */
 const thanks=$('thanks');let thanksReturnFocus=null;
-function openThankYou(){thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');$('thanksClose').focus()}
+function openThankYou(){renderBoardingPasses();thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');$('thanksClose').focus()}
 function closeThankYou(){thanks.classList.remove('open');thanks.setAttribute('aria-hidden','true');if(thanksReturnFocus&&thanksReturnFocus.focus)thanksReturnFocus.focus()}
 $('thanksClose').onclick=closeThankYou;$('thanksBack').onclick=closeThankYou;
 $('thanksExplore').onclick=()=>{closeThankYou();document.querySelector('.s3').scrollIntoView({behavior:'smooth',block:'start'})};
@@ -1354,15 +1484,11 @@ function loop(){requestAnimationFrame(loop);
     tip.style.opacity=hov?1:0;document.body.style.cursor=hov?'pointer':''}
 
   /* player jet */
-  const jv=ss(.3,.9,v)*(1-ev)*(pass?0:1);jet.visible=jv>.02;jet.scale.setScalar(Math.max(jv,.001));
+  const jv=ss(.3,.9,v)*(1-ev);jet.visible=jv>.02;jet.scale.setScalar(Math.max(jv,.001));
   jet.rotation.z=lerp(jet.rotation.z,-mx*.5-dv*8,.08);jet.rotation.x=lerp(jet.rotation.x,my*.15,.08);jet.position.y=-.85+Math.sin(t*2)*.02;
   jet.userData.f.scale.set(1,1,.8+Math.sin(t*30)*.2);updateFlow(dt);
 
   {const k5=ss(4.1,5,v);sunG.visible=k5>.01;sunG.scale.setScalar(.6+.4*k5);sunU.uT.value=t}
-  /* boarding pass */
-  if(pass){passT+=dt;const k=Math.min(1,passT/1.8),e=1-Math.pow(1-k,3),bs=Math.min(1,cam.aspect*.62);
-    pass.scale.setScalar(bs*(.2+.8*e));pass.rotation.y=(1-e)*Math.PI*2.5+mx*.3;pass.rotation.x=-(1-e)*1.2-my*.25+Math.sin(t*1.5)*.03;pass.position.y=-(1-e)*3+Math.sin(t*1.5)*.08}
-
   /* HUD + render */
   $('alt').textContent=Math.round(Math.pow(p,1.6)*100);$('spd').textContent=Math.round(240+p*1760);
   $('hdg').textContent=String(Math.round((90+Math.sin(p*7)*18+360)%360)).padStart(3,'0');$('barf').style.height=p*100+'%';
