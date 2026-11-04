@@ -262,6 +262,7 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
  .pass-qr{width:42px;height:42px}
 }
 
+.pass-verify{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.pass-verify input{flex:1 1 220px;min-width:0;padding:11px 14px;border:1px solid #c5d4e2;border-radius:12px;font:500 14px Inter,Arial,sans-serif;color:#183653;background:#fff}.pass-verify button{padding:11px 18px;border:0;border-radius:12px;background:#2673ae;color:#fff;font:700 13px Inter,Arial,sans-serif;cursor:pointer}.pass-verify button:hover{background:#1e5b8c}
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="brand"></div>
@@ -368,6 +369,7 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
         <span class="pass-count" id="passCount">0 PASSES</span>
       </header>
       <p class="pass-library-copy" id="passVerifyStatus">A boarding pass is issued only after Google Forms confirms that your registration was submitted. Return here after submitting the form.</p>
+      <div class="pass-verify"><input id="passEmail" type="email" inputmode="email" autocomplete="email" placeholder="Email used in the Google Form" aria-label="Email used in the Google Form"><button id="passVerifyBtn" type="button">Verify &amp; get pass</button></div>
       <div class="pass-list" id="passList"><div class="pass-empty">No verified registrations yet. Submit an event form and return to this page to receive your boarding pass.</div></div>
     </section>
     <div class="thanks-actions">
@@ -412,14 +414,14 @@ const FORMS={
   all:'PASTE_YOUR_GOOGLE_FORM_LINK_HERE',
 
   // ── Technical events ──
-  waterRocketry:'',
-  sugarRocketry:'',
+  waterRocketry:'https://docs.google.com/forms/d/e/1FAIpQLSc6u3QkXFWqhtDlQy48Q0EQPXPWbUZkqsW0atATGRziK09WmQ/viewform?usp=publish-editor',
+  sugarRocketry:'https://docs.google.com/forms/d/e/1FAIpQLSf4KxDuRgZYnFFJij4QuI_3XzgzWzglHcd7EVLMox6uFGXjJg/viewform?usp=publish-editor',
   rotorRush:'https://docs.google.com/forms/d/e/1FAIpQLSf2siSbkTGjCcnjbW7Mdn-QIOWYLHTzM74pacYkULdy7wPgTg/viewform?usp=publish-editor',
   lunaQuest:'https://docs.google.com/forms/d/e/1FAIpQLSfAQnnntMBRe3wXeP7mZrgu6rXU-3_V2YvIxuqX_IP85So0mw/viewform?usp=publish-editor',
   skyStrike:'https://docs.google.com/forms/d/e/1FAIpQLScadzcklq-kcbWmHImvxEhIrbjqiwJZYANnbeUDvTDsHHWqbw/viewform?usp=publish-editor',
   pathFinder:'https://docs.google.com/forms/d/e/1FAIpQLSdGk3YlIWtSsXHxyLmjFXpCSi9pQC-0y3Hf_eKIx3PFUy6sZw/viewform?usp=publish-editor',
   aeroPrecision:'https://docs.google.com/forms/d/e/1FAIpQLSfTPjcyqSaDA5XIvx5peLGd6gh6UsVxbGvfzRAfn9eu5mt19w/viewform?usp=publish-editor',
-  virtualWings:'',
+  virtualWings:'https://docs.google.com/forms/d/e/1FAIpQLSceMJs65PNZVvhBm6UVfKmFf4DtcjXmpv8y0OyefXnxjqjl9w/viewform?usp=publish-editor',
 
   // ── Non-technical events ──
   ghostProtocol:'https://docs.google.com/forms/d/e/1FAIpQLSfvUsQ1nxxgNH5qwX_TELqx6ZSSftefxWBgcP9uOUUvLUbvQw/viewform?usp=publish-editor',
@@ -427,6 +429,7 @@ const FORMS={
   checkmate:'https://docs.google.com/forms/d/e/1FAIpQLScf5UX7fcfYqP9Pf_yIlvTbnl1erGZ7QyBhCYEWZRoLp22dlQ/viewform?usp=publish-editor',
   aeroLens:'https://docs.google.com/forms/d/e/1FAIpQLSepQGhKN-5rJvsLLGpPutCWmDj9rWqHRSUHTW2cQgnt1iSOXQ/viewform?usp=publish-editor',
   visualRecall:'https://docs.google.com/forms/d/e/1FAIpQLScHapIrF3pngw1pruBnL6DwGdcTBuIhJIJ0Sa5tV_KdZBLmyg/viewform?usp=publish-editor',
+  freeFire:'https://docs.google.com/forms/d/e/1FAIpQLSerSVSzB3GcymRMNezcHiccvu-JbzJbtSPOl8XwJYTZXcGpTg/viewform?usp=publish-editor',
 };
 
 /* Google Apps Script Web App URL. Paste the deployed URL ending in /exec here. */
@@ -598,7 +601,7 @@ Participants must optimise their mission based on fuel efficiency, total delta-v
           `In case of a software, transmitter or system malfunction, the participant must immediately inform the coordinator. Any restart or time adjustment will be at the organizers' discretion.`,
           `The organizers' decision regarding obstacle completion, scoring, qualification and final ranking will be final.`]}]}
     ],
-    nonTechnical:[                                // 5 events after removing BIS activities
+    nonTechnical:[                                // 6 events
       {id:'ghostProtocol',name:'Operation: Ghost Protocol',form:FORMS.ghostProtocol,
         desc:'A five-sector mission of dossiers, ciphers and treasure hunts. Teams of five.',
         meta:[['Team size','Exactly 5'],['Sectors','5'],['Mode','Offline · time-bound']],
@@ -775,6 +778,18 @@ Every clue matters. Every decision counts. One overlooked detail could change th
           `After viewing the clip, teams will be given a set of questions based on what they watched. All answers must be submitted within the allotted time.`,
           `Different teams will receive different video clips and corresponding sets of questions.`,
           `Points will be awarded based on the answers submitted and the answer matrix prepared by the organizers before the event.`]}]},
+
+      {id:'freeFire',name:'Free Fire Esports',form:FORMS.freeFire,
+        desc:'Four-player squads drop in, loot up and fight to be the last team standing — BOOYAH!',
+        meta:[['Team size','Exactly 4'],['Format','Battle royale'],['Scoring','Kills + survival position']],
+        about:`Free Fire is a multiplayer battle royale game where teams compete against each other to become the last team standing. Each team consists of four players who must work together to survive, collect weapons, eliminate opponents and achieve victory (BOOYAH!).`,
+        sections:[{t:'Rules & Regulations',ordered:true,items:[
+          `Each team must have 4 players.`,
+          `Players must use their registered game accounts.`,
+          `Hacking, cheating and unfair gameplay are strictly prohibited.`,
+          `Teams must join the match on time.`,
+          `Players must follow the organiser's instructions.`,
+          `The team with the highest points based on kills and survival position wins the tournament.`]}]},
     ]
   },
 
@@ -1342,6 +1357,7 @@ function downloadBoardingPass(id){
   const a=document.createElement('a');a.download='VAIMAANIK-'+p.id+'.png';a.href=c.toDataURL('image/png');a.click();
 }
 let jsonpCounter=0;
+let verifyEmail='';
 function callPassVerification(params,timeoutMs=20000){
   return new Promise((resolve,reject)=>{
     const endpoint=String(PASS_VERIFICATION.appsScriptUrl||'').trim();
@@ -1378,6 +1394,7 @@ async function verifyPendingRegistrations(maxAttempts=1){
   if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(String(PASS_VERIFICATION.appsScriptUrl||''))){
     updatePassStatus('Your registration token is saved. The boarding-pass verification service still needs to be connected by the website administrator.');return;
   }
+  if(!verifyEmail){updatePassStatus('Enter the email you used in the Google Form below to verify your registration.');return}
   verificationLoopRunning=true;
   let verifiedCount=0;
   try{
@@ -1385,7 +1402,7 @@ async function verifyPendingRegistrations(maxAttempts=1){
       const batch=[...pendingRegistrations];
       for(const pending of batch){
         try{
-          const result=await callPassVerification({action:'check',token:pending.token});
+          const result=await callPassVerification({action:'check',token:pending.token,event:pending.eventId,email:verifyEmail,since:pending.createdAt});
           if(result.found&&result.pass){
             if(issueVerifiedBoardingPass(pending,result.pass))verifiedCount++;
             pendingRegistrations=pendingRegistrations.filter(x=>x.token!==pending.token);persistPendingRegistrations();
@@ -1397,16 +1414,19 @@ async function verifyPendingRegistrations(maxAttempts=1){
     if(verifiedCount){
       updatePassStatus(verifiedCount+' registration'+(verifiedCount===1?' has':'s have')+' been verified. Your boarding pass'+(verifiedCount===1?' is':'es are')+' now available below.');
       renderBoardingPasses();
+      if(!thanks.classList.contains('open')){thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');try{$('thanksClose').focus()}catch(e){}}
+      setTimeout(()=>{const pl=document.querySelector('.pass-library');if(pl&&pl.scrollIntoView)pl.scrollIntoView({behavior:'smooth',block:'center'})},350);
     }else if(pendingRegistrations.length){
       updatePassStatus('We are still waiting for Google Apps Script to confirm your submission. Keep this page open or return later; the pass appears only after confirmation.');
     }else if(!boardingPasses.length){
       updatePassStatus('No verified registrations yet. Submit an event form and return to this page to receive your boarding pass.');
     }
-  }finally{verificationLoopRunning=false}
+  }finally{verificationLoopRunning=false;if(!pendingRegistrations.length)verifyEmail=''}
 }
 function beginReturnVerification(){
   if(!pendingRegistrations.length)return;
   updatePassStatus('Checking your submitted Google Forms registration…');
+  if(!thanks.classList.contains('open')){thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');try{$('thanksClose').focus()}catch(e){}}
   verifyPendingRegistrations(24);
 }
 function register(url,label,eventId){
@@ -1427,19 +1447,8 @@ function register(url,label,eventId){
   try{token=createSecureToken()}catch(err){formWindow.close();alert(err.message);return}
   const pending={token,eventId:String(eventId||''),event:String(label||'Event'),url:String(url),createdAt:new Date().toISOString()};
   pendingRegistrations.unshift(pending);pendingRegistrations=pendingRegistrations.slice(0,100);persistPendingRegistrations();
-  updatePassStatus('Registration started. Your boarding pass will be created only after the submitted response is verified.');
-  callPassVerification({action:'prepare',event:eventId,token})
-    .then(result=>{
-      if(!result.prefillUrl)throw new Error('The verification service did not return a prefilled form link.');
-      formWindow.location.replace(result.prefillUrl);
-      updatePassStatus('Complete and submit the Google Form. Then use the return-to-VAIMAANIK link on its confirmation screen to receive your boarding pass.');
-    })
-    .catch(err=>{
-      pendingRegistrations=pendingRegistrations.filter(x=>x.token!==token);persistPendingRegistrations();
-      try{formWindow.close()}catch(e){}
-      updatePassStatus('The registration link could not be prepared. No boarding pass has been issued. '+err.message);
-      alert('Could not prepare your verified registration form. '+err.message);
-    });
+  updatePassStatus('Registration started. Submit the Google Form, then come back here and enter the email you used to verify it.');
+  formWindow.location.replace(url);
 }
 /* ═══════════════════════════════════════════════════════════
    10. MISSION CONTROL — countdown, visitor counter, footfall
@@ -1599,11 +1608,20 @@ $('fmX').onclick=backToRules;$('fmBack').onclick=backToRules;
 const thanks=$('thanks');let thanksReturnFocus=null;
 function openThankYou(){renderBoardingPasses();if(pendingRegistrations.length)verifyPendingRegistrations(1);thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');$('thanksClose').focus()}
 function closeThankYou(){thanks.classList.remove('open');thanks.setAttribute('aria-hidden','true');if(thanksReturnFocus&&thanksReturnFocus.focus)thanksReturnFocus.focus()}
+const runEmailVerify=()=>{const v=$('passEmail').value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){updatePassStatus('Please enter a valid email address - the same one you used in the Google Form.');return}
+  if(!pendingRegistrations.length){updatePassStatus('No registration in progress on this browser. Start from the Register button first.');return}
+  verifyEmail=v;updatePassStatus('Checking your submitted Google Forms registration…');
+  const go=()=>verificationLoopRunning?setTimeout(go,500):verifyPendingRegistrations(24);go()};
+$('passVerifyBtn').onclick=runEmailVerify;
+$('passEmail').addEventListener('keydown',e=>{if(e.key==='Enter')runEmailVerify()});
 $('thanksClose').onclick=closeThankYou;$('thanksBack').onclick=closeThankYou;
 $('thanksExplore').onclick=()=>{closeThankYou();document.querySelector('.s3').scrollIntoView({behavior:'smooth',block:'start'})};
 const returnedFromGoogleForm=new URLSearchParams(window.location.search).get(PASS_VERIFICATION.returnParameter)==='1';
-if(returnedFromGoogleForm)beginReturnVerification();
+if(returnedFromGoogleForm){beginReturnVerification();try{const u=new URL(location.href);u.searchParams.delete(PASS_VERIFICATION.returnParameter);history.replaceState(null,'',u.pathname+(u.search||'')+u.hash)}catch(e){}}
 window.addEventListener('focus',()=>{if(pendingRegistrations.length)verifyPendingRegistrations(1)});
+/* While a form is still pending (submitted within the last 30 min), re-check quietly so the pass appears by itself. */
+setInterval(()=>{if(document.hidden||verificationLoopRunning)return;if(pendingRegistrations.some(x=>Date.now()-new Date(x.createdAt).getTime()<30*60*1000))verifyPendingRegistrations(1)},10000);
 addEventListener('keydown',e=>{
   if(e.key==='Escape'&&thanks.classList.contains('open'))closeThankYou();
   else if(e.key==='Escape'&&fmWin.classList.contains('open'))backToRules();
