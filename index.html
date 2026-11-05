@@ -409,6 +409,8 @@ body.modal-open{overflow:hidden;overscroll-behavior:none}
 .rm-head,.rm-foot{flex:none}
 .rm-x{position:relative;z-index:12;min-width:42px;min-height:42px;display:grid;place-items:center;pointer-events:auto;touch-action:manipulation;cursor:pointer}
 .rm .rm-win button,.rm .rm-win a,.rm .rm-win input,.rm .rm-win summary{position:relative;z-index:2;pointer-events:auto;touch-action:manipulation}
+/* Preserve the slider's full-track hit area despite the shared modal input rule. */
+#fmRange{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;margin:0!important;z-index:3!important;pointer-events:auto!important;touch-action:pan-y!important}
 #rmBody{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .event-details-btn,.row button,#deskAll{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation;cursor:pointer}
 .thanks{z-index:1200;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility 0s linear .28s}
@@ -1871,9 +1873,13 @@ function openGateway(){
   fmDone=false;setFmSlide(0);fmRange.disabled=!ready;fmSlide.classList.toggle('off',!ready);
   $('fmNote').className=ready?'':'err';
   $('fmNote').textContent=ready?'Slide the aircraft handle from left to right. Submit the form, then return to VAIMAANIK to collect your verified boarding pass.':M.noLink;
-  rmWin.classList.remove('open');rmWin.setAttribute('aria-hidden','true');
-  fmWin.classList.add('open');fmWin.setAttribute('aria-hidden','false');
-  $('fmBackRules').focus()}
+  // Keep modal visibility, accessibility state and inert state in sync.
+  // The old direct class toggles left #fm inert (it is inert in the initial
+  // markup), which blocked every Step 2 control including the cancel button.
+  setLayerOpen(rmWin,false);
+  setLayerOpen(fmWin,true);
+  requestAnimationFrame(()=>focusSafely($('fmX'),$('fmBackRules')));
+}
 function closeGateway(){setLayerOpen(fmWin,false)}
 function closeRegistrationFlow(){
   setLayerOpen(fmWin,false);setLayerOpen(rmWin,false);rmAck.checked=false;fmDone=false;setFmSlide(0);
@@ -1894,6 +1900,7 @@ function finishFmSlide(){
 }
 // Open the form on release, within the participant's direct pointer/touch gesture.
 ['pointerup','touchend','mouseup','change'].forEach(n=>fmRange.addEventListener(n,finishFmSlide));
+fmRange.addEventListener('pointercancel',springFmSlide);
 fmRange.addEventListener('keydown',e=>{if(e.key==='Enter'&&!fmRange.disabled)launchGoogleForm()});
 rmAck.onchange=syncAck;
 $('rmContinue').addEventListener('click',openGateway);
