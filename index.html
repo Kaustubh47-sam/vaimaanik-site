@@ -183,6 +183,13 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 .fm-foot small{display:block;margin-top:11px;font:400 12px/1.5 Inter,sans-serif;color:#8ea4ba}
 .fm-slide{margin-top:15px}
 .fm-slide .rm-slide-t{letter-spacing:.08em}
+.fm-launch-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
+.fm-launch-actions[hidden]{display:none!important}
+.fm-launch-actions a{display:flex;align-items:center;justify-content:center;min-height:46px;padding:12px 16px;border-radius:9px;text-decoration:none;text-align:center;font:600 13px/1.25 Inter,'Segoe UI',Arial,sans-serif;letter-spacing:.01em;cursor:pointer;touch-action:manipulation;pointer-events:auto}
+.fm-launch-actions .fm-primary{flex:1 1 220px;background:linear-gradient(100deg,#2563eb,#4f70e8);color:#fff;box-shadow:0 8px 22px rgba(37,99,235,.22)}
+.fm-launch-actions .fm-secondary{flex:1 1 180px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#d6e4f2}
+.fm-launch-actions a:focus-visible{outline:2px solid #8fd8ff;outline-offset:3px}
+@media(max-width:600px){.fm-launch-actions{display:grid;grid-template-columns:1fr}.fm-launch-actions a{width:100%;min-height:50px}}
 #rmNote.err,#fmNote.err{color:#ff9a8a}
 
 
@@ -279,8 +286,8 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 .event-card-main{min-width:0;padding:1px 0 0;display:flex;flex-direction:column;min-height:188px}
 .event-card-main h3{font:900 clamp(15px,1.45vw,21px)/1.13 Orbitron,sans-serif;color:#fff;text-transform:uppercase;letter-spacing:-.015em;margin:0 25px 9px 0;text-shadow:0 0 16px rgba(255,255,255,.12)}
 .event-card-main .event-desc{font:500 14px/1.48 Inter,'Segoe UI',sans-serif;color:#c4d1e2;opacity:.9;margin:0 0 10px;max-width:none}
-.event-facts{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:2px}
-.event-fact{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border:1px solid rgba(143,216,255,.17);border-radius:7px;background:rgba(76,201,255,.055);font:600 10px/1.25 Inter,Arial,sans-serif;color:#b9d2e6}
+.event-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:auto;padding-top:2px}
+.event-fact{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:3px;min-width:0;padding:6px 8px;border:1px solid rgba(143,216,255,.17);border-radius:7px;background:rgba(76,201,255,.055);font:600 8px/1.2 Inter,Arial,sans-serif;color:#b9d2e6;overflow-wrap:break-word;word-break:normal}.event-fact b{color:#4cc9ff;font:700 8px/1.2 Inter,Arial,sans-serif;white-space:normal}.event-fact>span{font:600 9px/1.25 Inter,Arial,sans-serif;color:#b9d2e6}.event-fact.pending>span{color:#8396aa}
 .event-fact b{color:#4cc9ff;font-weight:700}
 .event-fact.pending{color:#8396aa;border-style:dashed;background:rgba(255,255,255,.025)}
 .event-card-bottom{display:flex;justify-content:flex-end;align-items:center;margin-top:10px}
@@ -289,7 +296,7 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 .event-details-btn:hover{background:rgba(255,138,60,.2);box-shadow:0 0 18px rgba(255,138,60,.22)}
 .event-number{position:absolute;left:12px;top:11px;z-index:1;color:rgba(143,216,255,.8);font:700 9px Orbitron,sans-serif;letter-spacing:.08em}
 @media(max-width:900px){#cards.event-grid{grid-template-columns:1fr}.s3 .event-card{min-height:190px}.event-card-main{min-height:160px}}
-@media(max-width:540px){.s3{padding-left:5vw;padding-right:5vw}.s3 .event-card{grid-template-columns:94px minmax(0,1fr);gap:12px;padding:11px;min-height:164px}.event-thumb{width:94px;border-radius:14px}.event-thumb .event-type{font-size:7px;padding:4px 7px;bottom:5px}.event-card-main{min-height:140px}.event-card-main h3{font-size:14px;margin-right:18px}.event-card-main .event-desc{font-size:12px;line-height:1.4}.event-fact{font-size:9px;padding:4px 6px}.event-details-btn{font-size:9px;padding:8px 10px}}
+@media(max-width:540px){.s3{padding-left:5vw;padding-right:5vw}.s3 .event-card{grid-template-columns:94px minmax(0,1fr);gap:12px;padding:11px;min-height:164px}.event-thumb{width:94px;border-radius:14px}.event-thumb .event-type{font-size:7px;padding:4px 7px;bottom:5px}.event-card-main{min-height:140px}.event-card-main h3{font-size:14px;margin-right:18px}.event-card-main .event-desc{font-size:12px;line-height:1.4}.event-facts{display:flex;flex-wrap:wrap}.event-fact{font-size:9px;padding:4px 6px}.event-details-btn{font-size:9px;padding:8px 10px}}
 
 /* ═════════ OFFICIAL RULEBOOK DOWNLOAD PANEL ═════════ */
 .rulebook-section{height:auto;min-height:72vh;display:flex;align-items:center;justify-content:center;padding:9vh 7vw;pointer-events:none}
@@ -557,15 +564,19 @@ body.modal-open{overflow:hidden;overscroll-behavior:none}
         <strong id="fmEvent">All Events</strong>
         <span id="fmFormType">Official registration form · Google Forms</span>
       </div>
-      <div class="fm-notice">Your registration will open in Google Forms. Complete all required fields and submit the form to finish registration.</div>
+      <div class="fm-notice">After submitting the Google Form, return to VAIMAANIK and use Clear for Takeoff to verify the same email address and collect your boarding pass.</div>
     </div>
     <footer class="rm-foot fm-foot">
       <div class="fm-actions">
         <button class="fm-secondary" id="fmBackRules" type="button">Back to rules</button>
       </div>
-      <div class="rm-slide fm-slide off" id="fmSlide" aria-label="Slide to open Google Forms">
-        <span class="rm-slide-t" id="fmSlideT">Slide to open Google Forms</span>
-        <input type="range" id="fmRange" min="0" max="100" step="1" value="0" disabled aria-label="Slide to open Google Forms">
+      <div class="rm-slide fm-slide off" id="fmSlide" aria-label="Slide to unlock Google Forms links">
+        <span class="rm-slide-t" id="fmSlideT">Slide to unlock registration links</span>
+        <input type="range" id="fmRange" min="0" max="100" step="1" value="0" disabled aria-label="Slide to unlock registration links">
+      </div>
+      <div class="fm-launch-actions" id="fmLaunchActions" hidden>
+        <a class="fm-primary" id="fmOpenNewTab" href="#" target="_blank" rel="noopener noreferrer">Open Google Form in New Tab ↗</a>
+        <a class="fm-secondary" id="fmOpenSameTab" href="#" target="_self">Open Google Form in This Tab</a>
       </div>
       <small id="fmNote"></small>
     </footer>
@@ -685,7 +696,7 @@ const CONFIG={
 
   // ── Mission-control panel (countdown + stats) ──────────
   panelTitle:'Mission control',
-  footfall:{value:500,suffix:'+',label:'Expected footfall'},
+  footfall:{value:1500,suffix:'+',label:'Expected footfall'},
   visitors:{
     enabled:true,                                 // false hides the visitor tile
     api:'https://abacus.jasoncameron.dev',        // free hit-counter service, no sign-up needed
@@ -1662,24 +1673,45 @@ function beginReturnVerification(){
   if(!passVerificationReady()){updatePassStatus('Registration request found. The website administrator still needs to deploy the email verification service before a verified boarding pass can be issued.');return}
   updatePassStatus('Registration request found. Enter the same email used in the Google Form and request a one-time verification code.');
 }
-function register(url,label,eventId){
-  if(!url||/PASTE_YOUR/i.test(url)){alert('This event does not have a Google Forms link configured yet.');return}
-  closeDesk();
-  const apiReady=passVerificationReady();
-  // Reserve a new tab synchronously in the user's slide gesture to avoid popup blocking.
-  let formWindow=null;
-  try{formWindow=window.open('about:blank','_blank');if(formWindow){formWindow.opener=null;formWindow.document.title='VAIMAANIK · Opening registration';formWindow.document.body.innerHTML='<p style="font:16px Arial;padding:24px">Preparing your event registration…</p>'}}catch(e){}
-  if(!formWindow){alert('Your browser blocked the registration tab. Allow pop-ups for this website and try again.');return}
-  let token='';
-  try{token=createSecureToken()}catch(err){formWindow.close();alert(err.message);return}
-  const pending={token,eventId:String(eventId||''),event:String(label||'Event'),url:String(url),createdAt:new Date().toISOString()};
-  pendingRegistrations.unshift(pending);pendingRegistrations=pendingRegistrations.slice(0,100);persistPendingRegistrations();
-  if(!apiReady){
-    updatePassStatus('The registration form is opening. Email verification and verified boarding-pass generation will become available after the administrator deploys the verification service.');
-  }else{
-    updatePassStatus('Registration started. Submit the Google Form, return to this page, then verify the email used in the form.');
+function prepareRegistrationNavigation(ev){
+  // The anchor's default navigation must remain untouched: native link activation
+  // is more reliable than window.open() on iOS and embedded mobile browsers.
+  if(!fmReadyToOpen){ev.preventDefault();return false}
+  if(registrationPrepared)return true; // allow a retry/fallback link without duplicating the pending entry
+
+  const anchor=ev.currentTarget;
+  let targetUrl;
+  try{
+    targetUrl=new URL(anchor.href,window.location.href);
+    const host=targetUrl.hostname.toLowerCase();
+    if(targetUrl.protocol!=='https:'&&targetUrl.protocol!=='http:')throw new Error('The registration link is not a valid web address.');
+    if(!(host==='forms.gle'||host==='docs.google.com'||host.endsWith('.google.com')))throw new Error('The registration link is not an approved Google Forms address.');
+  }catch(err){
+    ev.preventDefault();$('fmNote').className='err';$('fmNote').textContent=err.message||'The registration link is invalid.';return false;
   }
-  formWindow.location.replace(url);
+
+  let token='';
+  try{token=createSecureToken()}catch(err){
+    ev.preventDefault();$('fmNote').className='err';$('fmNote').textContent=err.message||'Could not prepare your registration. Please try again.';return false;
+  }
+  const eventId=rmCur&&rmCur.id?rmCur.id:'all';
+  const pending={token,eventId:String(eventId),event:String(pendingFormLabel||'Event'),url:targetUrl.href,createdAt:new Date().toISOString()};
+  pendingRegistrations.unshift(pending);
+  pendingRegistrations=pendingRegistrations.slice(0,100);
+  persistPendingRegistrations();
+  registrationPrepared=true;
+
+  const apiReady=passVerificationReady();
+  updatePassStatus(apiReady
+    ?'Registration started. Submit the Google Form, return to this page, then verify the email used in the form.'
+    :'The registration request is saved on this browser. Email verification and verified boarding-pass generation will become available after the administrator deploys the verification service.');
+  $('fmNote').className='';
+  $('fmNote').textContent=anchor.target==='_blank'
+    ?'Registration request saved. Complete the Google Form in the new tab, then return here to verify your email and collect your boarding pass.'
+    :'Registration request saved. Complete the Google Form in this tab; return to VAIMAANIK afterward to verify your email and collect your boarding pass.';
+  // Do not close Step 2 here. For a new-tab link it remains available as a
+  // fallback; for same-tab navigation the browser follows the anchor normally.
+  return true;
 }
 /* ═══════════════════════════════════════════════════════════
    10. MISSION CONTROL — countdown, visitor counter, footfall
@@ -1774,6 +1806,23 @@ function renderRulebookCards(){
   });
 }
 
+const EVENT_REGISTRATION_INFO=Object.freeze({
+  waterRocketry:{fee:300,team:'2–3 members'},
+  sugarRocketry:{fee:300,team:'2–3 members'},
+  lunaQuest:{fee:200,team:'2 members'},
+  skyStrike:{fee:200,team:'2 members'},
+  aeroPrecision:{fee:500,team:'4–5 members'},
+  virtualWings:{fee:150,team:'1 member'},
+  rotorRush:{fee:399,team:'2–3 members'},
+  pathFinder:{fee:250,team:'2 members'},
+  ghostProtocol:{fee:300,team:'4–5 members'},
+  bgmi:{fee:300,team:'2–4 members'},
+  checkmate:{fee:100,team:'1 member'},
+  aeroLens:{fee:100,team:'1 member'},
+  visualRecall:{fee:200,team:'2 members'},
+  freeFire:{fee:300,team:'2–4 members'}
+});
+
 function renderEvents(){
   const code=CATS.find(c=>c[0]===cat)[2],list=CONFIG.events[cat],tag=i=>code+' · '+String(i+1).padStart(2,'0');
   makeTabs($('tabs'));makeTabs($('deskTabs'));
@@ -1791,18 +1840,29 @@ function renderEvents(){
     const title=document.createElement('h3');title.textContent=e.name;
     const desc=document.createElement('p');desc.className='event-desc';desc.textContent=e.desc||'Event information will be announced by the organisers.';
     const facts=document.createElement('div');facts.className='event-facts';
+    // Keep existing event-specific facts where supplied; omit only the empty
+    // empty details placeholder from the compact event card.
     if(Array.isArray(e.meta)&&e.meta.length){
       e.meta.slice(0,3).forEach(([label,value])=>{
         const fact=document.createElement('span');fact.className='event-fact';
-        const strong=document.createElement('b');strong.textContent=label+':';fact.append(strong,document.createTextNode(' '+value));facts.appendChild(fact);
+        const strong=document.createElement('b');strong.textContent=label+':';
+        const detail=document.createElement('span');detail.textContent=' '+value;
+        fact.append(strong,detail);facts.appendChild(fact);
       });
-    }else{
-      const pending=document.createElement('span');pending.className='event-fact pending';pending.textContent='EVENT DETAILS TO BE ANNOUNCED';facts.appendChild(pending);
     }
-    // Schedule and fee were not present in the uploaded event configuration; reserve clear placeholders instead of inventing values.
-    [['DATE / TIME','TO BE ANNOUNCED'],['REGISTRATION FEE','TO BE ANNOUNCED']].forEach(([label,value])=>{
-      const fact=document.createElement('span');fact.className='event-fact pending';
-      const strong=document.createElement('b');strong.textContent=label+':';fact.append(strong,document.createTextNode(' '+value));facts.appendChild(fact);
+    const registrationInfo=EVENT_REGISTRATION_INFO[e.id];
+    const coordinatorNames=(EVENT_RULEBOOKS[e.id]?.coordinators||[])
+      .map(item=>Array.isArray(item)?item[0]:'').filter(Boolean);
+    const factData=[
+      ['DATE / TIME','TO BE ANNOUNCED',true],
+      ['REGISTRATION FEE',registrationInfo?`₹${registrationInfo.fee} / team · ${registrationInfo.team}`:'TO BE ANNOUNCED',!registrationInfo],
+      ['COORDINATORS',coordinatorNames.length?coordinatorNames.join(' · '):'TO BE ANNOUNCED',!coordinatorNames.length]
+    ];
+    factData.forEach(([label,value,pending])=>{
+      const fact=document.createElement('span');fact.className='event-fact'+(pending?' pending':'');
+      const strong=document.createElement('b');strong.textContent=label+':';
+      const detail=document.createElement('span');detail.textContent=' '+value;
+      fact.append(strong,detail);facts.appendChild(fact);
     });
     const actions=document.createElement('div');actions.className='event-card-bottom';
     const book=EVENT_RULEBOOKS[e.id];
@@ -1840,7 +1900,7 @@ renderRulebookCards();
    ═══════════════════════════════════════════════════════════ */
 const rmWin=$('rm'),fmWin=$('fm'),rmAck=$('rmAck'),rmNote=$('rmNote');
 const fmRange=$('fmRange'),fmSlide=$('fmSlide');
-let rmCur=null,rmLast=null,rmCategory='All events',rmNumber='',pendingFormUrl='',pendingFormLabel='',fmDone=false;
+let rmCur=null,rmLast=null,rmCategory='All events',rmNumber='',pendingFormUrl='',pendingFormLabel='',fmDone=false,fmReadyToOpen=false,registrationPrepared=false;
 const M=CONFIG.rulesWindow;
 const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const para=t=>t.split(/\n\s*\n/).map(x=>'<p>'+esc(x)+'</p>').join('');
@@ -1918,40 +1978,56 @@ function openGateway(){
   pendingFormLabel=rmCur?rmCur.name:CONFIG.register.label;
   $('fmEvent').textContent=pendingFormLabel;
   $('fmFormType').textContent=(rmCur&&rmCur.form)?'Event-specific Google Form':'Common Google Form';
-  $('fmCopy').textContent='Your rules briefing is complete. Slide to open the official Google Form in a separate browser tab. Complete and submit the form; your boarding pass will be issued only after the submission is verified.';
+  $('fmCopy').textContent='Your rules briefing is complete. Slide to unlock the official registration links, then tap one of the options below. The new-tab option is recommended; the same-tab option is available if your browser restricts new tabs.';
   const ready=!!pendingFormUrl&&!/PASTE_YOUR/i.test(pendingFormUrl);
-  fmDone=false;setFmSlide(0);fmRange.disabled=!ready;fmSlide.classList.toggle('off',!ready);
+  fmDone=false;fmReadyToOpen=false;registrationPrepared=false;
+  setFmSlide(0);
+  fmRange.disabled=!ready;fmSlide.classList.toggle('off',!ready);fmSlide.hidden=false;
+  $('fmLaunchActions').hidden=true;
+  $('fmOpenNewTab').href=ready?pendingFormUrl:'#';
+  $('fmOpenSameTab').href=ready?pendingFormUrl:'#';
   $('fmNote').className=ready?'':'err';
-  $('fmNote').textContent=ready?'Slide the aircraft handle from left to right. Submit the form, then return to VAIMAANIK to collect your verified boarding pass.':M.noLink;
+  $('fmNote').textContent=ready?'Slide the aircraft handle from left to right. Then choose whether to open Google Forms in a new tab or this tab.':M.noLink;
   // Keep modal visibility, accessibility state and inert state in sync.
-  // The old direct class toggles left #fm inert (it is inert in the initial
-  // markup), which blocked every Step 2 control including the cancel button.
   setLayerOpen(rmWin,false);
   setLayerOpen(fmWin,true);
   requestAnimationFrame(()=>focusSafely($('fmX'),$('fmBackRules')));
 }
 function closeGateway(){setLayerOpen(fmWin,false)}
 function closeRegistrationFlow(){
-  setLayerOpen(fmWin,false);setLayerOpen(rmWin,false);rmAck.checked=false;fmDone=false;setFmSlide(0);
+  setLayerOpen(fmWin,false);setLayerOpen(rmWin,false);rmAck.checked=false;fmDone=false;fmReadyToOpen=false;registrationPrepared=false;setFmSlide(0);
+  $('fmLaunchActions').hidden=true;$('fmSlide').hidden=false;
   const target=rmLast;rmLast=null;const fallback=document.querySelector('.s3 h2');
   requestAnimationFrame(()=>focusSafely(target,fallback));
 }
-function backToRules(){closeGateway();setLayerOpen(rmWin,true);requestAnimationFrame(()=>focusSafely($('rmContinue')))}
-function launchGoogleForm(){
-  if(fmDone)return;
-  if(!pendingFormUrl||/PASTE_YOUR/i.test(pendingFormUrl)){$('fmNote').className='err';$('fmNote').textContent=M.noLink;setFmSlide(0);return}
-  const eventId=rmCur&&rmCur.id?rmCur.id:'all';
-  fmDone=true;setFmSlide(100);closeRegistrationFlow();register(pendingFormUrl,pendingFormLabel,eventId)}
+function backToRules(){
+  fmDone=false;fmReadyToOpen=false;registrationPrepared=false;setFmSlide(0);
+  $('fmLaunchActions').hidden=true;$('fmSlide').hidden=false;
+  closeGateway();setLayerOpen(rmWin,true);requestAnimationFrame(()=>focusSafely($('rmContinue')))
+}
+function unlockRegistrationLinks(){
+  if(fmReadyToOpen||fmRange.disabled)return;
+  if(!pendingFormUrl||/PASTE_YOUR/i.test(pendingFormUrl)){
+    $('fmNote').className='err';$('fmNote').textContent=M.noLink;setFmSlide(0);return;
+  }
+  fmDone=true;fmReadyToOpen=true;setFmSlide(100);
+  fmRange.disabled=true;fmSlide.hidden=true;
+  $('fmLaunchActions').hidden=false;
+  $('fmNote').className='';
+  $('fmNote').textContent='Registration links unlocked. Tap an option below to continue; no pop-up window is opened automatically.';
+  requestAnimationFrame(()=>focusSafely($('fmOpenNewTab'),$('fmOpenSameTab')));
+}
 fmRange.addEventListener('input',()=>{fmSlide.style.setProperty('--p',fmRange.value)});
 function finishFmSlide(){
-  if(fmDone||fmRange.disabled)return;
-  if(+fmRange.value>=98)launchGoogleForm();
+  if(fmReadyToOpen||fmRange.disabled)return;
+  if(+fmRange.value>=98)unlockRegistrationLinks();
   else springFmSlide();
 }
-// Open the form on release, within the participant's direct pointer/touch gesture.
 ['pointerup','touchend','mouseup','change'].forEach(n=>fmRange.addEventListener(n,finishFmSlide));
 fmRange.addEventListener('pointercancel',springFmSlide);
-fmRange.addEventListener('keydown',e=>{if(e.key==='Enter'&&!fmRange.disabled)launchGoogleForm()});
+fmRange.addEventListener('keydown',e=>{if(e.key==='Enter'&&!fmRange.disabled){e.preventDefault();unlockRegistrationLinks()}});
+$('fmOpenNewTab').addEventListener('click',prepareRegistrationNavigation);
+$('fmOpenSameTab').addEventListener('click',prepareRegistrationNavigation);
 rmAck.onchange=syncAck;
 $('rmContinue').addEventListener('click',openGateway);
 $('fmBackRules').addEventListener('click',backToRules);
