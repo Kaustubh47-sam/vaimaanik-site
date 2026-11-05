@@ -107,8 +107,9 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 #deskFoot button{font-size:13px}
 #deskFoot small{font-size:12px}
 
-.rm{position:fixed;inset:0;z-index:30;display:grid;place-items:center;padding:clamp(8px,3vw,32px);opacity:0;pointer-events:none;transition:opacity .25s}
+.rm{position:fixed;inset:0;z-index:1000;isolation:isolate;display:grid;place-items:center;padding:clamp(8px,3vw,32px);opacity:0;pointer-events:none;transition:opacity .25s}
 .rm.open{opacity:1;pointer-events:auto}
+.rm .rm-back{z-index:0;pointer-events:auto}.rm .rm-win{position:relative;z-index:1;pointer-events:auto}.rm .rm-win *{pointer-events:auto}
 .rm-back{position:absolute;inset:0;background:rgba(2,5,16,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 .rm-win{position:relative;width:min(860px,100%);max-height:min(88vh,900px);display:flex;flex-direction:column;border-radius:16px;background:linear-gradient(180deg,rgba(11,18,42,.98),rgba(5,9,24,.98));border:1px solid rgba(143,216,255,.28);box-shadow:0 30px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.03) inset;color:#d6e4f2;transform:translateY(18px) scale(.98);transition:transform .3s;overflow:hidden}
 .rm.open .rm-win{transform:none}
@@ -267,8 +268,8 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 /* ═════════ EVENT CARD SYSTEM — VAIMAANIK reference layout ═════════ */
 .s3{height:auto;min-height:100vh;padding-top:10vh;padding-bottom:8vh}
 .s3>h2{color:#eaf4ff;}
-#cards.event-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px;align-items:stretch;pointer-events:auto}
-.s3 .event-card{width:100%;min-width:0;min-height:218px;padding:14px;display:grid;grid-template-columns:132px minmax(0,1fr);gap:15px;align-items:start;position:relative;overflow:hidden;border-radius:19px;background:linear-gradient(135deg,rgba(14,25,53,.94),rgba(7,11,29,.94));border:1px solid rgba(76,201,255,.38);box-shadow:0 0 22px rgba(76,201,255,.09),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);transition:transform .25s,border-color .25s,box-shadow .25s}
+#cards.event-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:24px;align-items:stretch;pointer-events:auto}
+.s3 .event-card{position:relative;z-index:1;pointer-events:auto;width:100%;min-width:0;min-height:218px;padding:14px;display:grid;grid-template-columns:132px minmax(0,1fr);gap:15px;align-items:start;position:relative;overflow:hidden;border-radius:19px;background:linear-gradient(135deg,rgba(14,25,53,.94),rgba(7,11,29,.94));border:1px solid rgba(76,201,255,.38);box-shadow:0 0 22px rgba(76,201,255,.09),inset 0 1px 0 rgba(255,255,255,.06);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);transition:transform .25s,border-color .25s,box-shadow .25s}
 .s3 .event-card::before{content:'';position:absolute;top:0;left:12px;right:12px;height:2px;background:linear-gradient(90deg,transparent,#4cc9ff 25%,#ff8a3c 75%,transparent);opacity:.9}
 .s3 .event-card::after{content:'';position:absolute;right:12px;top:12px;width:22px;height:22px;border:1px solid rgba(255,138,60,.65);border-radius:50%;box-shadow:0 0 14px rgba(255,138,60,.18);pointer-events:none}
 .s3 .event-card:hover{transform:translateY(-4px);border-color:#ff8a3c;box-shadow:0 0 30px rgba(255,138,60,.17),inset 0 1px 0 rgba(255,255,255,.08)}
@@ -283,7 +284,8 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 .event-fact b{color:#4cc9ff;font-weight:700}
 .event-fact.pending{color:#8396aa;border-style:dashed;background:rgba(255,255,255,.025)}
 .event-card-bottom{display:flex;justify-content:flex-end;align-items:center;margin-top:10px}
-.event-details-btn{padding:9px 14px;border-radius:22px;border:1px solid rgba(255,138,60,.65);background:rgba(255,90,90,.1);color:#ff7775;box-shadow:none;font:700 10px Orbitron,sans-serif;letter-spacing:.06em;transition:background .2s,box-shadow .2s}
+.event-details-btn{position:relative;z-index:3;pointer-events:auto;touch-action:manipulation;padding:9px 14px;border-radius:22px;border:1px solid rgba(255,138,60,.65);background:rgba(255,90,90,.1);color:#ff7775;box-shadow:none;font:700 10px Orbitron,sans-serif;letter-spacing:.06em;transition:background .2s,box-shadow .2s}
+.s3 .event-card-bottom,.s3 .event-card-bottom *{pointer-events:auto}
 .event-details-btn:hover{background:rgba(255,138,60,.2);box-shadow:0 0 18px rgba(255,138,60,.22)}
 .event-number{position:absolute;left:12px;top:11px;z-index:1;color:rgba(143,216,255,.8);font:700 9px Orbitron,sans-serif;letter-spacing:.08em}
 @media(max-width:900px){#cards.event-grid{grid-template-columns:1fr}.s3 .event-card{min-height:190px}.event-card-main{min-height:160px}}
@@ -307,6 +309,13 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 .rulebook-download svg{width:18px;height:18px;flex:none}
 .rulebook-note{display:block;margin-top:12px;font:400 11px/1.55 Inter,sans-serif;color:#8fa5bb}
 @media(max-width:720px){.rulebook-section{padding:7vh 5vw}.rulebook-panel{grid-template-columns:1fr;gap:18px}.rulebook-art{min-height:200px}.rulebook-art img{max-height:220px}.rulebook-copy{text-align:center}.rulebook-copy p{margin-left:auto;margin-right:auto}.rulebook-chips{justify-content:center}.rulebook-download{width:100%}}
+
+
+#thanks .pass-otp-row[hidden]{display:none!important}
+#thanks .pass-otp-row input{position:relative;z-index:5;min-height:46px;flex:1 1 180px;min-width:0;padding:12px 15px;border:1px solid rgba(255,138,60,.78);border-radius:12px;outline:0;background:rgba(4,14,31,.96);color:#f4f9ff;font:700 16px Inter,Arial,sans-serif;letter-spacing:.3em;text-align:center;caret-color:#ff9a50;pointer-events:auto!important;user-select:text!important}
+#thanks .pass-otp-row button{position:relative;z-index:5;min-height:46px;pointer-events:auto!important}
+.pass-download{margin-top:10px;padding:9px 13px;border:1px solid #b7cfe1;border-radius:8px;background:#edf6fc;color:#20577f;font:700 10px Inter,Arial,sans-serif;box-shadow:none;cursor:pointer}
+.pass-download:hover{background:#dceef9}
 
 /* ═════════ EMAIL INPUT HIT-AREA FIX ═════════ */
 #thanks .pass-library{display:block;position:relative;z-index:3;width:100%;height:auto;min-height:0;margin:18px 0 0;padding:20px 22px;text-align:left;pointer-events:auto!important;isolation:isolate;background:rgba(5,14,31,.52);border:1px solid rgba(76,201,255,.34);border-radius:16px;box-shadow:0 0 26px rgba(76,201,255,.1)}
@@ -384,6 +393,37 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 @media(max-width:900px){.rb-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.rulebook-section{padding:7vh 5vw}.rb-grid{grid-template-columns:1fr}.rb-card{padding:15px}.rb-card-visual{height:120px}.rb-card-visual img{width:100px;height:100px}.rb-card p{min-height:0}.rm-coordinator-list{grid-template-columns:1fr}}
 
+
+
+/* ═════════ INTERACTION HARDENING — v10 ═════════ */
+body.modal-open{overflow:hidden;overscroll-behavior:none}
+#desk{z-index:110;isolation:isolate;visibility:hidden;pointer-events:none}
+#desk.open{visibility:visible;pointer-events:auto}
+#deskHead{position:relative;z-index:2}
+#deskX{position:relative;z-index:8;min-width:38px;min-height:36px;display:grid;place-items:center;touch-action:manipulation;pointer-events:auto}
+.rm{z-index:1000;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility 0s linear .22s}
+.rm.open{z-index:1000;visibility:visible;pointer-events:auto;transition:opacity .22s ease,visibility 0s}
+.rm .rm-back{z-index:0;pointer-events:auto;cursor:default}
+.rm .rm-win{position:relative;z-index:1;pointer-events:auto;max-height:min(88vh,900px);max-height:min(88dvh,900px);overscroll-behavior:contain}
+.rm .rm-win::before{pointer-events:none}
+.rm-head,.rm-foot{flex:none}
+.rm-x{position:relative;z-index:12;min-width:42px;min-height:42px;display:grid;place-items:center;pointer-events:auto;touch-action:manipulation;cursor:pointer}
+.rm .rm-win button,.rm .rm-win a,.rm .rm-win input,.rm .rm-win summary{position:relative;z-index:2;pointer-events:auto;touch-action:manipulation}
+#rmBody{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.event-details-btn,.row button,#deskAll{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation;cursor:pointer}
+.thanks{z-index:1200;visibility:hidden;pointer-events:none;transition:opacity .28s ease,visibility 0s linear .28s}
+.thanks.open{z-index:1200;visibility:visible;pointer-events:auto;transition:opacity .28s ease,visibility 0s}
+.thanks-back{z-index:0;pointer-events:auto}
+.thanks-letter{z-index:1;pointer-events:auto;overscroll-behavior:contain}
+.thanks-close-top,#thanksClose{position:relative;z-index:5;pointer-events:auto;touch-action:manipulation}
+@media(max-width:600px){
+  .rm{padding:8px}
+  .rm .rm-win{width:100%;max-height:92vh;max-height:92dvh}
+  .rm-head{align-items:center}
+  .rm-x{min-width:44px;min-height:44px}
+  #desk{right:12px;bottom:78px;max-height:calc(100dvh - 96px)}
+}
+
 </style></head><body>
 <canvas id="c"></canvas>
 <div id="brand"></div>
@@ -422,20 +462,20 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 
 <!-- floating registration window -->
 <button id="deskBtn"></button>
-<div id="desk" role="dialog" aria-label="Registration desk">
-  <div id="deskHead"><span id="deskT"></span><button id="deskX" aria-label="Close">✕</button></div>
+<div id="desk" role="dialog" aria-label="Registration desk" aria-hidden="true" inert>
+  <div id="deskHead"><span id="deskT"></span><button id="deskX" type="button" aria-label="Close">✕</button></div>
   <div class="tabs" id="deskTabs"></div>
   <div id="deskList"></div>
   <div id="deskFoot"><button id="deskAll"></button><small>Review the rules, then continue to the registration form</small></div>
 </div>
 
 <!-- STEP 01: event rules and participant acknowledgement -->
-<div class="rm" id="rm" aria-hidden="true">
+<div class="rm" id="rm" aria-hidden="true" inert>
   <div class="rm-back" id="rmBack"></div>
   <div class="rm-win" role="dialog" aria-modal="true" aria-labelledby="rmTitle">
     <header class="rm-head">
       <div><span class="rm-kick" id="rmKick"></span><h3 id="rmTitle"></h3></div>
-      <button class="rm-x" id="rmX" aria-label="Close">✕</button>
+      <button class="rm-x" id="rmX" type="button" aria-label="Close event details">✕</button>
     </header>
     <div class="rm-meta" id="rmMeta"></div>
     <div class="rm-body" id="rmBody"></div>
@@ -450,12 +490,12 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 </div>
 
 <!-- STEP 02: confirmation window before opening Google Forms -->
-<div class="rm fm" id="fm" aria-hidden="true">
+<div class="rm fm" id="fm" aria-hidden="true" inert>
   <div class="rm-back" id="fmBack"></div>
   <div class="rm-win fm-win" role="dialog" aria-modal="true" aria-labelledby="fmTitle">
     <header class="rm-head">
       <div><span class="rm-kick">STEP 02 · OFFICIAL REGISTRATION</span><h3 id="fmTitle">Your registration gateway is ready</h3></div>
-      <button class="rm-x" id="fmX" aria-label="Close">✕</button>
+      <button class="rm-x" id="fmX" type="button" aria-label="Cancel registration and close">✕</button>
     </header>
     <div class="fm-body">
       <div class="fm-mark" aria-hidden="true">↗</div>
@@ -481,7 +521,7 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
 </div>
 
 <!-- THANK-YOU LETTER: opened by the Clear for takeoff button -->
-<div class="thanks" id="thanks" aria-hidden="true">
+<div class="thanks" id="thanks" aria-hidden="true" inert>
   <div class="thanks-back" id="thanksBack"></div>
   <article class="thanks-letter" role="dialog" aria-modal="true" aria-labelledby="thanksTitle">
     <div class="thanks-top">
@@ -496,9 +536,10 @@ button{cursor:pointer;font:700 14px Orbitron,sans-serif;border:0;border-radius:1
         <div><span class="pass-library-kicker">YOUR FLIGHT COLLECTION</span><h4 class="pass-library-title">Boarding passes</h4></div>
         <span class="pass-count" id="passCount">0 PASSES</span>
       </header>
-      <p class="pass-library-copy" id="passVerifyStatus">A boarding pass is issued only after Google Forms confirms that your registration was submitted. Return here after submitting the form.</p>
-      <div class="pass-verify"><input id="passEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="Enter the email used in your registration" aria-label="Enter the email used in your Google Form registration"><button id="passVerifyBtn" type="button">Verify &amp; get pass</button></div>
-      <div class="pass-list" id="passList"><div class="pass-empty">No verified registrations yet. Submit an event form and return to this page to receive your boarding pass.</div></div>
+      <p class="pass-library-copy" id="passVerifyStatus">Submit the event Google Form, then enter the same email address here. A one-time code will be emailed after the form response is found.</p>
+      <div class="pass-verify"><input id="passEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="Enter the email used in your registration" aria-label="Enter the email used in your Google Form registration"><button id="passVerifyBtn" type="button">Send verification code</button></div>
+      <div class="pass-verify pass-otp-row" id="passOtpRow" hidden><input id="passOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit email code" aria-label="Enter the six digit verification code"><button id="passOtpBtn" type="button">Confirm code &amp; get pass</button></div>
+      <div class="pass-list" id="passList"><div class="pass-empty">No verified registrations yet. Submit an event form, then return here to verify your email and collect your boarding pass.</div></div>
     </section>
     <p>Every great flight begins with curiosity, courage and a little imagination. Thank you for bringing yours to VAIMAANIK!</p>
     <p>Whether you build, fly, design, solve, compete or cheer from the sidelines, you help make this journey special. We hope you leave with new ideas, brilliant memories and stories worth sharing.</p>
@@ -1423,7 +1464,7 @@ function renderBoardingPasses(){
   root.innerHTML='';
   if(!boardingPasses.length){
     const empty=document.createElement('div');empty.className='pass-empty';
-    empty.textContent='No verified registrations yet. Submit an event form and return to this page to receive your boarding pass.';
+    empty.textContent='No verified registrations yet. Submit an event form, then return here to verify your email and collect your boarding pass.';
     root.appendChild(empty);return;
   }
   boardingPasses.forEach(p=>{
@@ -1449,7 +1490,7 @@ function renderBoardingPasses(){
             <div class="pass-field"><small>ISSUED</small><b>${passEscape(dateText)}</b></div>
           </div>
         </div>
-        <div class="pass-issued"><strong>Complete and submit the Google Form to finish registration.</strong><br>TEAM VAIMAANIK · KEEP REACHING FOR THE SKIES</div>
+        <div class="pass-issued"><strong>Registration verified by email.</strong><br>TEAM VAIMAANIK · KEEP REACHING FOR THE SKIES</div><button class="pass-download" type="button">DOWNLOAD BOARDING PASS ↓</button>
       </div>
       <div class="pass-plane-panel">
         <div class="pass-qr-wrap">
@@ -1458,7 +1499,7 @@ function renderBoardingPasses(){
         </div>
       </div>`;
     makePassQr(card.querySelector('.pass-qr'),url);
-    card.querySelector('.pass-download').addEventListener('click',()=>downloadBoardingPass(p.id));
+    const downloadBtn=card.querySelector('.pass-download');if(downloadBtn)downloadBtn.addEventListener('click',()=>downloadBoardingPass(p.id));
     root.appendChild(card);
   });
 }
@@ -1491,18 +1532,26 @@ function downloadBoardingPass(id){
 }
 let jsonpCounter=0;
 let verifyEmail='';
-function callPassVerification(params,timeoutMs=20000){
+let activeOtpToken='';
+function passVerificationEndpoint(){return String(PASS_VERIFICATION.appsScriptUrl||'').trim()}
+function passVerificationReady(){return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(passVerificationEndpoint())}
+function setOtpMode(show){
+  const row=$('passOtpRow');if(row)row.hidden=!show;
+  if(!show&&$('passOtp'))$('passOtp').value='';
+  if($('passVerifyBtn'))$('passVerifyBtn').textContent=show?'Resend verification code':'Send verification code';
+}
+function callPassVerification(params,timeoutMs=25000){
   return new Promise((resolve,reject)=>{
-    const endpoint=String(PASS_VERIFICATION.appsScriptUrl||'').trim();
-    if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(endpoint)){
-      reject(new Error('The Apps Script Web App URL has not been configured in PASS_VERIFICATION.'));return;
+    const endpoint=passVerificationEndpoint();
+    if(!passVerificationReady()){
+      reject(new Error('Email verification is not connected yet. The website administrator must deploy the supplied Google Apps Script and add its /exec URL to PASS_VERIFICATION.'));return;
     }
     const callbackName='__vaimaanikJsonp'+(++jsonpCounter)+'_'+Date.now();
     const script=document.createElement('script');let finished=false;
-    const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);delete window[callbackName];script.remove()};
-    const timer=setTimeout(()=>{cleanup();reject(new Error('The verification service did not respond in time.'))},timeoutMs);
-    window[callbackName]=(payload)=>{cleanup();if(payload&&payload.ok)resolve(payload);else reject(new Error(payload&&payload.message?payload.message:'Verification request failed.'))};
-    script.onerror=()=>{cleanup();reject(new Error('Could not reach the Apps Script verification service.'))};
+    const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);try{delete window[callbackName]}catch(e){window[callbackName]=undefined}script.remove()};
+    const timer=setTimeout(()=>{cleanup();reject(new Error('The verification server did not respond. Check the Apps Script deployment and try again.'))},timeoutMs);
+    window[callbackName]=(payload)=>{cleanup();if(payload&&payload.ok)resolve(payload);else reject(new Error(payload&&payload.message?payload.message:'The verification request failed.'))};
+    script.onerror=()=>{cleanup();reject(new Error('Could not reach the verification server. Confirm the Apps Script URL and its public web-app access.'))};
     const query=new URLSearchParams({...params,callback:callbackName});
     script.src=endpoint+(endpoint.includes('?')?'&':'?')+query.toString();
     document.head.appendChild(script);
@@ -1520,67 +1569,64 @@ function issueVerifiedBoardingPass(pending,verification){
   boardingPasses.unshift(record);boardingPasses=boardingPasses.slice(0,100);
   persistBoardingPasses();renderBoardingPasses();return true;
 }
-let verificationLoopRunning=false;
-const waitForVerification=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-async function verifyPendingRegistrations(maxAttempts=1){
-  if(verificationLoopRunning||!pendingRegistrations.length)return;
-  if(!/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(String(PASS_VERIFICATION.appsScriptUrl||''))){
-    updatePassStatus('Your registration token is saved. The boarding-pass verification service still needs to be connected by the website administrator.');return;
-  }
-  if(!verifyEmail){updatePassStatus('Enter the email you used in the Google Form below to verify your registration.');return}
-  verificationLoopRunning=true;
-  let verifiedCount=0;
+async function requestEmailOtp(){
+  const email=$('passEmail').value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){updatePassStatus('Enter a valid email address — the same address used in the event Google Form.');$('passEmail').focus();return}
+  if(!pendingRegistrations.length){updatePassStatus('No pending registration was found on this browser. Open the event registration form from VAIMAANIK, submit it, then return here.');return}
+  if(!passVerificationReady()){updatePassStatus('Email verification is not active yet. The site administrator must deploy the verification service and configure its /exec URL. No pass will be issued until verification is connected.');return}
+  const pending=pendingRegistrations[0];
+  verifyEmail=email;activeOtpToken=pending.token;
+  const btn=$('passVerifyBtn');btn.disabled=true;btn.textContent='Sending…';
+  updatePassStatus('Checking the submitted form response and sending a one-time code…');
   try{
-    for(let attempt=0;attempt<maxAttempts&&pendingRegistrations.length;attempt++){
-      const batch=[...pendingRegistrations];
-      for(const pending of batch){
-        try{
-          const result=await callPassVerification({action:'check',token:pending.token,event:pending.eventId,email:verifyEmail,since:pending.createdAt});
-          if(result.found&&result.pass){
-            if(issueVerifiedBoardingPass(pending,result.pass))verifiedCount++;
-            pendingRegistrations=pendingRegistrations.filter(x=>x.token!==pending.token);persistPendingRegistrations();
-          }
-        }catch(err){console.warn('VAIMAANIK registration verification:',err.message)}
-      }
-      if(pendingRegistrations.length&&attempt<maxAttempts-1)await waitForVerification(5000);
-    }
-    if(verifiedCount){
-      updatePassStatus(verifiedCount+' registration'+(verifiedCount===1?' has':'s have')+' been verified. Your boarding pass'+(verifiedCount===1?' is':'es are')+' now available below.');
-      renderBoardingPasses();
-      if(!thanks.classList.contains('open')){thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');try{$('thanksClose').focus()}catch(e){}}
-      setTimeout(()=>{const pl=document.querySelector('.pass-library');if(pl&&pl.scrollIntoView)pl.scrollIntoView({behavior:'smooth',block:'center'})},350);
-    }else if(pendingRegistrations.length){
-      updatePassStatus('We are still waiting for Google Apps Script to confirm your submission. Keep this page open or return later; the pass appears only after confirmation.');
-    }else if(!boardingPasses.length){
-      updatePassStatus('No verified registrations yet. Submit an event form and return to this page to receive your boarding pass.');
-    }
-  }finally{verificationLoopRunning=false;if(!pendingRegistrations.length)verifyEmail=''}
+    const result=await callPassVerification({action:'request',token:pending.token,event:pending.eventId,email,since:pending.createdAt});
+    if(!result.found){setOtpMode(false);updatePassStatus(result.message||'No matching submitted registration was found yet. Submit the Google Form first, then try again.');return}
+    if(!result.sent){if(activeOtpToken)setOtpMode(true);else setOtpMode(false);updatePassStatus(result.message||'A code could not be sent. Try again shortly.');return}
+    setOtpMode(true);updatePassStatus('A 6-digit verification code was sent to '+email+'. Enter it below within 10 minutes.');$('passOtp').focus();
+  }catch(err){setOtpMode(false);updatePassStatus(err.message)}
+  finally{btn.disabled=false;btn.textContent='Resend verification code'}
+}
+async function confirmEmailOtp(){
+  const code=$('passOtp').value.trim();
+  if(!/^\d{6}$/.test(code)){updatePassStatus('Enter the 6-digit code sent to your email.');$('passOtp').focus();return}
+  if(!activeOtpToken||!verifyEmail){updatePassStatus('Request a new verification code first.');setOtpMode(false);return}
+  const pending=pendingRegistrations.find(x=>x.token===activeOtpToken);
+  if(!pending){updatePassStatus('This registration request has expired. Start registration again from the event portal.');setOtpMode(false);return}
+  const btn=$('passOtpBtn');btn.disabled=true;btn.textContent='Verifying…';
+  updatePassStatus('Verifying your email code…');
+  try{
+    const result=await callPassVerification({action:'confirm',token:pending.token,event:pending.eventId,email:verifyEmail,otp:code});
+    if(!result.verified||!result.pass)throw new Error(result.message||'The code could not be verified. Request a new code and try again.');
+    issueVerifiedBoardingPass(pending,result.pass);
+    pendingRegistrations=pendingRegistrations.filter(x=>x.token!==pending.token);persistPendingRegistrations();
+    activeOtpToken='';setOtpMode(false);
+    updatePassStatus('Email verified. Your official boarding pass is now available below.');renderBoardingPasses();
+    if(pendingRegistrations.length)updatePassStatus('Email verified and pass issued. You have '+pendingRegistrations.length+' other pending registration(s); repeat the verification process for the next event.');
+  }catch(err){updatePassStatus(err.message)}
+  finally{btn.disabled=false;btn.textContent='Confirm code & get pass'}
 }
 function beginReturnVerification(){
-  if(!pendingRegistrations.length)return;
-  updatePassStatus('Checking your submitted Google Forms registration…');
-  if(!thanks.classList.contains('open')){thanksReturnFocus=document.activeElement;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');try{$('thanksClose').focus()}catch(e){}}
-  verifyPendingRegistrations(24);
+  if(!pendingRegistrations.length){renderBoardingPasses();return}
+  if(!passVerificationReady()){updatePassStatus('Registration request found. The website administrator still needs to deploy the email verification service before a verified boarding pass can be issued.');return}
+  updatePassStatus('Registration request found. Enter the same email used in the Google Form and request a one-time verification code.');
 }
 function register(url,label,eventId){
   if(!url||/PASTE_YOUR/i.test(url)){alert('This event does not have a Google Forms link configured yet.');return}
   closeDesk();
-  const apiReady=/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(String(PASS_VERIFICATION.appsScriptUrl||''));
-  // Open a blank tab immediately during the slider gesture so popup blockers permit it.
+  const apiReady=passVerificationReady();
+  // Reserve a new tab synchronously in the user's slide gesture to avoid popup blocking.
   let formWindow=null;
-  try{formWindow=window.open('about:blank','_blank');if(formWindow){formWindow.opener=null;formWindow.document.title='VAIMAANIK · Opening registration';formWindow.document.body.innerHTML='<p style="font:16px Arial;padding:24px">Preparing your secure event registration…</p>'}}catch(e){}
-  if(!formWindow){alert('Your browser blocked the registration tab. Allow pop-ups for this website and slide again.');return}
-  if(!apiReady){
-    // Do not create a pass or claim verification when the backend has not been deployed.
-    formWindow.location.replace(url);
-    updatePassStatus('The Google Form opened, but boarding-pass verification is not connected yet. Configure the Apps Script Web App to enable verified passes.');
-    return;
-  }
-  let token;
+  try{formWindow=window.open('about:blank','_blank');if(formWindow){formWindow.opener=null;formWindow.document.title='VAIMAANIK · Opening registration';formWindow.document.body.innerHTML='<p style="font:16px Arial;padding:24px">Preparing your event registration…</p>'}}catch(e){}
+  if(!formWindow){alert('Your browser blocked the registration tab. Allow pop-ups for this website and try again.');return}
+  let token='';
   try{token=createSecureToken()}catch(err){formWindow.close();alert(err.message);return}
   const pending={token,eventId:String(eventId||''),event:String(label||'Event'),url:String(url),createdAt:new Date().toISOString()};
   pendingRegistrations.unshift(pending);pendingRegistrations=pendingRegistrations.slice(0,100);persistPendingRegistrations();
-  updatePassStatus('Registration started. Submit the Google Form, then come back here and enter the email you used to verify it.');
+  if(!apiReady){
+    updatePassStatus('The registration form is opening. Email verification and verified boarding-pass generation will become available after the administrator deploys the verification service.');
+  }else{
+    updatePassStatus('Registration started. Submit the Google Form, return to this page, then verify the email used in the form.');
+  }
   formWindow.location.replace(url);
 }
 /* ═══════════════════════════════════════════════════════════
@@ -1709,28 +1755,31 @@ function renderEvents(){
     const actions=document.createElement('div');actions.className='event-card-bottom';
     const book=EVENT_RULEBOOKS[e.id];
     if(book){const download=document.createElement('a');download.className='event-rulebook-btn';download.href=book.file;download.setAttribute('download',book.file);download.textContent='RULEBOOK PDF';actions.appendChild(download)}
-    const details=document.createElement('button');details.className='event-details-btn';details.type='button';details.textContent='VIEW DETAILS';details.onclick=go;actions.appendChild(details);
+    const details=document.createElement('button');details.className='event-details-btn';details.type='button';details.textContent='VIEW DETAILS';details.addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();go()});actions.appendChild(details);
     main.append(number,title,desc,facts,actions);article.append(thumb,main);$('cards').appendChild(article);
 
-    const row=document.createElement('div');row.className='row';row.innerHTML='<span class="no"></span><span></span><button></button>';
-    row.children[0].textContent=tag(i);row.children[1].textContent=e.name;row.children[2].textContent=CONFIG.cardButton;row.children[2].onclick=go;
+    const row=document.createElement('div');row.className='row';row.innerHTML='<span class="no"></span><span></span><button type="button"></button>';
+    row.children[0].textContent=tag(i);row.children[1].textContent=e.name;row.children[2].textContent=CONFIG.cardButton;row.children[2].addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();go()});
     $('deskList').appendChild(row);
   })}
 
 const desk=$('desk'),deskBtn=$('deskBtn');
 $('deskT').textContent=CONFIG.deskTitle;deskBtn.textContent=CONFIG.deskButton;$('deskAll').textContent=CONFIG.deskAllButton;
 $('deskAll').onclick=()=>openRules(null);
-function openDesk(o=true){desk.classList.toggle('open',o)}
+function openDesk(o=true){
+  const show=!!o;desk.classList.toggle('open',show);desk.setAttribute('aria-hidden',show?'false':'true');
+  if(show)desk.removeAttribute('inert');else desk.setAttribute('inert','');
+}
 function closeDesk(){openDesk(false)}
-deskBtn.onclick=()=>openDesk(!desk.classList.contains('open'));$('deskX').onclick=closeDesk;
-addEventListener('keydown',e=>{if(e.key==='Escape')closeDesk()});
+deskBtn.addEventListener('click',()=>openDesk(!desk.classList.contains('open')));
+$('deskX').addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();closeDesk()});
 function deskTick(v){const on=v>.8;deskBtn.classList.toggle('on',on);if(!on)closeDesk()}
 
 /* drag the window by its title bar */
 (function(){let d=null;const h=$('deskHead');
   h.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;const r=desk.getBoundingClientRect();d={x:e.clientX-r.left,y:e.clientY-r.top};h.setPointerCapture(e.pointerId)});
   h.addEventListener('pointermove',e=>{if(!d)return;desk.style.left=clamp(e.clientX-d.x,0,innerWidth-desk.offsetWidth)+'px';desk.style.top=clamp(e.clientY-d.y,0,innerHeight-60)+'px';desk.style.right=desk.style.bottom='auto'});
-  h.addEventListener('pointerup',()=>{d=null})})();
+  ['pointerup','pointercancel','lostpointercapture'].forEach(type=>h.addEventListener(type,()=>{d=null}))})();
 renderEvents();
 renderRulebookCards();
 
@@ -1750,7 +1799,9 @@ function blockHTML(s){
   else h+=list(s.items,s.ordered);
   return h}
 function eventHTML(e){
-  let h=(!e.about&&!e.sections.length)?'<div class="rm-note">'+esc(M.comingSoon)+'</div>':(e.about?'<h4>'+esc(M.aboutHead)+'</h4>'+para(e.about):'')+e.sections.map(blockHTML).join('');
+  const sections=Array.isArray(e&&e.sections)?e.sections:[];
+  const about=e&&typeof e.about==='string'?e.about:'';
+  let h=(!about&&!sections.length)?'<div class="rm-note">'+esc(M.comingSoon)+'</div>':(about?'<h4>'+esc(M.aboutHead)+'</h4>'+para(about):'')+sections.map(blockHTML).join('');
   const book=EVENT_RULEBOOKS[e.id];
   if(book){
     if(book.coordinators&&book.coordinators.length){
@@ -1762,22 +1813,50 @@ function eventHTML(e){
   return h;
 }
 
+function setLayerOpen(layer,show){
+  if(!layer)return;
+  layer.classList.toggle('open',!!show);
+  layer.setAttribute('aria-hidden',show?'false':'true');
+  if(show)layer.removeAttribute('inert');else layer.setAttribute('inert','');
+  const anyOpen=!!document.querySelector('.rm.open,.thanks.open');
+  document.body.classList.toggle('modal-open',anyOpen);
+}
+function focusSafely(target,fallback){
+  const usable=el=>!!(el&&el.isConnected&&!el.closest('[inert]')&&el.getClientRects().length);
+  const el=usable(target)?target:(usable(fallback)?fallback:null);
+  if(el){try{el.focus({preventScroll:true})}catch(_){try{el.focus()}catch(__){}}}
+}
 function openRules(e,catLabel,no){
-  rmCur=e||null;rmLast=document.activeElement;rmCategory=catLabel||'All events';rmNumber=no||'';
-  if(e){
-    $('rmKick').textContent=rmCategory+' · '+rmNumber;$('rmTitle').textContent=e.name;
-    $('rmMeta').innerHTML=(e.meta||[]).map(m=>'<div class="rm-chip"><small>'+esc(m[0])+'</small><b>'+esc(m[1])+'</b></div>').join('');
-    $('rmBody').innerHTML=eventHTML(e)}
-  else{
+  rmCur=e&&typeof e==='object'?e:null;
+  rmLast=document.activeElement;
+  rmCategory=catLabel||'All events';rmNumber=no||'';
+  if(rmCur){
+    const sections=Array.isArray(rmCur.sections)?rmCur.sections:[];
+    const about=typeof rmCur.about==='string'?rmCur.about:'';
+    $('rmKick').textContent=rmCategory+' · '+rmNumber;
+    $('rmTitle').textContent=rmCur.name||'Event details';
+    $('rmMeta').innerHTML=(Array.isArray(rmCur.meta)?rmCur.meta:[]).map(m=>'<div class="rm-chip"><small>'+esc(m[0])+'</small><b>'+esc(m[1])+'</b></div>').join('');
+    $('rmBody').innerHTML=eventHTML(rmCur);
+    var isPending=!about&&!sections.length;
+  }else{
     $('rmKick').textContent=M.generalKicker;$('rmTitle').textContent=M.generalTitle;$('rmMeta').innerHTML='';
     $('rmBody').innerHTML='<h4>'+esc(M.generalHead)+'</h4>'+list(M.generalRules,true)+
-      CATS.map(([k,l])=>'<h4>'+esc(l)+' events</h4>'+CONFIG.events[k].map(ev=>'<details><summary>'+esc(ev.name)+'</summary><div>'+eventHTML(ev)+'</div></details>').join('')).join('')}
-  $('rmBody').scrollTop=0;
-  rmAck.checked=false;$('rmAckT').textContent=(e&&!e.about&&!e.sections.length)?M.ackPending:M.ack;
-  $('rmContinue').disabled=true;rmNote.className='';rmNote.textContent=(e&&!e.about&&!e.sections.length)?M.comingSoon:M.note;
-  fmWin.classList.remove('open');fmWin.setAttribute('aria-hidden','true');
-  closeDesk();rmWin.classList.add('open');rmWin.setAttribute('aria-hidden','false');$('rmX').focus()}
-function closeRules(){rmWin.classList.remove('open');rmWin.setAttribute('aria-hidden','true');if(rmLast&&rmLast.focus)try{rmLast.focus()}catch(e){}}
+      CATS.map(([k,l])=>'<h4>'+esc(l)+' events</h4>'+CONFIG.events[k].map(ev=>'<details><summary>'+esc(ev.name)+'</summary><div>'+eventHTML(ev)+'</div></details>').join('')).join('');
+    var isPending=false;
+  }
+  $('rmBody').scrollTop=0;rmAck.checked=false;
+  $('rmAckT').textContent=isPending?M.ackPending:M.ack;
+  $('rmContinue').disabled=true;rmNote.className='';
+  rmNote.textContent=isPending?M.comingSoon:M.note;
+  setLayerOpen(fmWin,false);closeDesk();setLayerOpen(rmWin,true);
+  requestAnimationFrame(()=>{$('rmBody').scrollTop=0;focusSafely($('rmX'))});
+}
+function closeRules(){
+  setLayerOpen(rmWin,false);setLayerOpen(fmWin,false);rmAck.checked=false;
+  const target=rmLast;rmLast=null;
+  const fallback=$('deskBtn')&&$('deskBtn').classList.contains('on')?$('deskBtn'):document.querySelector('.s3 h2');
+  requestAnimationFrame(()=>focusSafely(target,fallback));
+}
 function syncAck(){ $('rmContinue').disabled=!rmAck.checked }
 function setFmSlide(v){fmRange.value=v;fmSlide.style.setProperty('--p',v)}
 function springFmSlide(){let v=+fmRange.value;(function f(){v-=Math.max(2,v*.18);if(v<=0){setFmSlide(0);return}setFmSlide(v);requestAnimationFrame(f)})()}
@@ -1795,13 +1874,18 @@ function openGateway(){
   rmWin.classList.remove('open');rmWin.setAttribute('aria-hidden','true');
   fmWin.classList.add('open');fmWin.setAttribute('aria-hidden','false');
   $('fmBackRules').focus()}
-function closeGateway(){fmWin.classList.remove('open');fmWin.setAttribute('aria-hidden','true')}
-function backToRules(){closeGateway();rmWin.classList.add('open');rmWin.setAttribute('aria-hidden','false');$('rmContinue').focus()}
+function closeGateway(){setLayerOpen(fmWin,false)}
+function closeRegistrationFlow(){
+  setLayerOpen(fmWin,false);setLayerOpen(rmWin,false);rmAck.checked=false;fmDone=false;setFmSlide(0);
+  const target=rmLast;rmLast=null;const fallback=document.querySelector('.s3 h2');
+  requestAnimationFrame(()=>focusSafely(target,fallback));
+}
+function backToRules(){closeGateway();setLayerOpen(rmWin,true);requestAnimationFrame(()=>focusSafely($('rmContinue')))}
 function launchGoogleForm(){
   if(fmDone)return;
   if(!pendingFormUrl||/PASTE_YOUR/i.test(pendingFormUrl)){$('fmNote').className='err';$('fmNote').textContent=M.noLink;setFmSlide(0);return}
   const eventId=rmCur&&rmCur.id?rmCur.id:'all';
-  fmDone=true;setFmSlide(100);closeGateway();closeRules();register(pendingFormUrl,pendingFormLabel,eventId)}
+  fmDone=true;setFmSlide(100);closeRegistrationFlow();register(pendingFormUrl,pendingFormLabel,eventId)}
 fmRange.addEventListener('input',()=>{fmSlide.style.setProperty('--p',fmRange.value)});
 function finishFmSlide(){
   if(fmDone||fmRange.disabled)return;
@@ -1812,33 +1896,34 @@ function finishFmSlide(){
 ['pointerup','touchend','mouseup','change'].forEach(n=>fmRange.addEventListener(n,finishFmSlide));
 fmRange.addEventListener('keydown',e=>{if(e.key==='Enter'&&!fmRange.disabled)launchGoogleForm()});
 rmAck.onchange=syncAck;
-$('rmContinue').onclick=openGateway;
-$('fmBackRules').onclick=backToRules;
-$('rmX').onclick=closeRules;$('rmBack').onclick=closeRules;
-$('fmX').onclick=backToRules;$('fmBack').onclick=backToRules;
+$('rmContinue').addEventListener('click',openGateway);
+$('fmBackRules').addEventListener('click',backToRules);
+$('rmX').addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();closeRules()});
+$('rmBack').addEventListener('click',ev=>{if(ev.target===$('rmBack'))closeRules()});
+$('fmX').addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();closeRegistrationFlow()});
+$('fmBack').addEventListener('click',ev=>{if(ev.target===$('fmBack'))closeRegistrationFlow()});
 
 /* Thank-you letter for the main Clear for takeoff CTA. */
 const thanks=$('thanks');let thanksReturnFocus=null;
-function openThankYou(){renderBoardingPasses();if(pendingRegistrations.length)verifyPendingRegistrations(1);thanksReturnFocus=document.activeElement;$('passEmail').disabled=false;$('passEmail').readOnly=false;thanks.classList.add('open');thanks.setAttribute('aria-hidden','false');$('thanksClose').focus()}
-function closeThankYou(){thanks.classList.remove('open');thanks.setAttribute('aria-hidden','true');if(thanksReturnFocus&&thanksReturnFocus.focus)thanksReturnFocus.focus()}
-const runEmailVerify=()=>{const v=$('passEmail').value.trim().toLowerCase();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){updatePassStatus('Please enter a valid email address - the same one you used in the Google Form.');return}
-  if(!pendingRegistrations.length){updatePassStatus('No registration in progress on this browser. Start from the Register button first.');return}
-  verifyEmail=v;updatePassStatus('Checking your submitted Google Forms registration…');
-  const go=()=>verificationLoopRunning?setTimeout(go,500):verifyPendingRegistrations(24);go()};
-$('passVerifyBtn').onclick=runEmailVerify;
-$('passEmail').addEventListener('keydown',e=>{if(e.key==='Enter')runEmailVerify()});
-$('thanksClose').onclick=closeThankYou;$('thanksCloseTop').onclick=closeThankYou;$('thanksBack').onclick=closeThankYou;
+function openThankYou(){renderBoardingPasses();if(pendingRegistrations.length&&!passVerificationReady())updatePassStatus('The registration is saved on this browser, but the email verification service has not been deployed yet. Contact the website administrator.');thanksReturnFocus=document.activeElement;$('passEmail').disabled=false;$('passEmail').readOnly=false;setOtpMode(false);activeOtpToken='';if(pendingRegistrations.length)beginReturnVerification();setLayerOpen(thanks,true);requestAnimationFrame(()=>focusSafely($('thanksCloseTop')))}
+function closeThankYou(){setLayerOpen(thanks,false);focusSafely(thanksReturnFocus,document.querySelector('.s4 button'));thanksReturnFocus=null}
+$('passVerifyBtn').onclick=requestEmailOtp;
+$('passOtpBtn').onclick=confirmEmailOtp;
+$('passEmail').addEventListener('keydown',e=>{if(e.key==='Enter')requestEmailOtp()});
+$('passOtp').addEventListener('keydown',e=>{if(e.key==='Enter')confirmEmailOtp()});
+$('thanksClose').addEventListener('click',closeThankYou);
+$('thanksCloseTop').addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();closeThankYou()});
+$('thanksBack').addEventListener('click',ev=>{if(ev.target===$('thanksBack'))closeThankYou()});
 $('thanksExplore').onclick=()=>{closeThankYou();document.querySelector('.s3').scrollIntoView({behavior:'smooth',block:'start'})};
 const returnedFromGoogleForm=new URLSearchParams(window.location.search).get(PASS_VERIFICATION.returnParameter)==='1';
 if(returnedFromGoogleForm){beginReturnVerification();try{const u=new URL(location.href);u.searchParams.delete(PASS_VERIFICATION.returnParameter);history.replaceState(null,'',u.pathname+(u.search||'')+u.hash)}catch(e){}}
-window.addEventListener('focus',()=>{if(pendingRegistrations.length)verifyPendingRegistrations(1)});
-/* While a form is still pending (submitted within the last 30 min), re-check quietly so the pass appears by itself. */
-setInterval(()=>{if(document.hidden||verificationLoopRunning)return;if(pendingRegistrations.some(x=>Date.now()-new Date(x.createdAt).getTime()<30*60*1000))verifyPendingRegistrations(1)},10000);
+// Verification is initiated explicitly by the participant; no silent polling or premature pass issuance.
 addEventListener('keydown',e=>{
-  if(e.key==='Escape'&&thanks.classList.contains('open'))closeThankYou();
-  else if(e.key==='Escape'&&fmWin.classList.contains('open'))backToRules();
-  else if(e.key==='Escape'&&rmWin.classList.contains('open'))closeRules();
+  if(e.key!=='Escape')return;
+  if(thanks.classList.contains('open')){e.preventDefault();closeThankYou();}
+  else if(fmWin.classList.contains('open')){e.preventDefault();closeRegistrationFlow();}
+  else if(rmWin.classList.contains('open')){e.preventDefault();closeRules();}
+  else if(desk.classList.contains('open')){e.preventDefault();closeDesk();}
 });
 
 /* ═══════════════════════════════════════════════════════════
