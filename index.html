@@ -713,8 +713,87 @@ const CONFIG={
   events:{
     technical:[                                   // 8 events
       {id:'waterRocketry',name:'Water Rocketry',form:FORMS.waterRocketry,
-        desc:'Details and rules will be announced soon.',
-        meta:[],about:'',sections:[]},
+        desc:'Design, build and launch a water-powered rocket; two official attempts are allowed and the higher score counts.',
+        meta:[],
+        about:`The Water Rocket Challenge evaluates engineering design and flight performance. Each team will design, build and launch a water-powered rocket. Each team is allowed two official launch attempts; only its higher-scoring attempt will count toward the final ranking.`,
+        sections:[
+          {t:'2. Team Eligibility and Registration',ordered:true,items:[
+            `Each team shall have exactly 2 members.`,
+            `All participants must carry valid college identification.`,
+            `Each participant may register with only one team.`,
+            `Teams must bring their own rocket and complete registration before the event.`,
+            `Teams must report at the time announced by the organizers.`]},
+          {t:'3. Technical Specifications',ordered:false,items:[
+            `Pressure vessel: Carbonated soft-drink PET pressure vessel, up to 2.5 L, subject to inspection and verified working-pressure suitability.`,
+            `Propulsion: Water and compressed air only.`,
+            `Launch pressure: Maximum pressure to be set by organizers after verifying the vessel and complete launcher assembly; no universal PSI limit is assumed safe.`,
+            `Nose cone: Lightweight, non-metallic, non-sharp.`,
+            `Fins: Allowed; securely attached.`,
+            `Recovery system: Not required; no recovery points.`,
+            `Launch pad / launcher: Teams must bring their own; none will be provided by organizers.`,
+            `Air pump / compressor: Teams must bring their own; none will be provided by organizers.`,
+            `Rocket stages: Single-stage and two-stage water rockets are permitted; maximum TWO stages, subject to safety inspection.`,
+            `A maximum of TWO rocket stages is permitted. Both single-stage and two-stage designs are eligible. Any stage-separation mechanism and all pressurized components must pass inspection; unsafe or uncontrolled separation is prohibited. Each stage may use a maximum 2.5 L carbonated soft-drink PET pressure vessel (5 L combined maximum for two stages). Both pressure chambers and the stage-separation mechanism require safety inspection.`,
+            `Rockets must be fabricated by participating teams. Commercial ready-made rockets, hazardous materials, combustion systems, sharp metal tips and damaged pressure vessels are prohibited.`]},
+          {t:'4. Launching Equipment and Inspection',ordered:false,items:[
+            `6. The organizers will NOT provide a launch pad, launcher, pump or compressor.`,
+            `7. Each team is responsible for transporting, assembling and operating its own approved equipment.`,
+            `8. Launchers must be stable, securely anchored and equipped with a safe release arrangement that permits operation from behind the designated safety boundary.`,
+            `9. Pressure vessels, fittings, hoses, release mechanisms and launcher supports must pass inspection before pressurization.`,
+            `10. Teams must follow the organizer-approved pressure limit, launch direction and launch angle.`,
+            `11. Only authorized persons may pressurize or release a rocket; the launch official must give clearance first.`,
+            `12. Unsafe equipment will not be allowed to launch.`]},
+          {t:'5. Competition Format — Two Launch Attempts (Best Score Counts)',ordered:false,items:[
+            `13. Each team receives a maximum of TWO official launch attempts.`,
+            `14. Flight time, horizontal distance and flight-path straightness are recorded and scored separately for each attempt. The higher TOTAL score of the two attempts is the team’s final score. Scores from separate attempts must not be combined.`,
+            `15. Flight time starts when the rocket leaves the launcher and ends at first ground contact.`,
+            `16. Horizontal distance is measured along the ground from the launch point to the first ground-contact point.`,
+            `17. Judges will also assess deviation from the designated flight direction and overall stability. A normal curved ballistic trajectory is not itself a straightness fault.`,
+            `18. A replacement attempt may be granted only for an organizer-confirmed equipment or measurement failure. An additional tie-breaker launch may be authorized under Section 7.`]},
+          {t:'6. Scoring System',ordered:false,items:[
+            `Horizontal distance: 10 points for each COMPLETE 5 m.`,
+            `Flight time: 10 points for each COMPLETE 1 s.`,
+            `Flight-path straightness: 0–20 points, awarded by judges.`,
+            `Distance points = 10 × floor(distance in metres ÷ 5).`,
+            `Time points = 10 × floor(flight time in seconds).`,
+            `Attempt score = Distance points + Time points + Straightness points. Final team score = the HIGHER attempt score (Launch 1 or Launch 2).`,
+            `Only complete 5-metre intervals and complete seconds earn points. There is no overall maximum score; straightness is capped at 20 points per attempt. If both attempts have equal total points, the attempt with the greater actual measured horizontal distance is used for the team’s recorded result.`]},
+          {t:'6.1 Flight-path straightness rubric',ordered:false,items:[
+            `Excellent – stable, closely aligned with intended direction: 16–20 points.`,
+            `Good – minor directional deviation: 11–15 points.`,
+            `Average – noticeable deviation: 6–10 points.`,
+            `Poor – highly unstable or substantially off course: 0–5 points.`]},
+          {t:'7. Tie-Breaking Criteria',ordered:false,items:[
+            `19. Higher actual measured horizontal distance (not just distance points).`,
+            `20. If still tied, longer actual measured flight time (not just time points).`,
+            `21. If still tied, higher flight-path straightness score.`,
+            `22. If still tied, judges may authorize one additional launch for the tied teams under the same conditions.`]},
+          {t:'8. Safety Regulations',ordered:false,items:[
+            `23. Only water and compressed air are permitted; chemicals, flames, explosives and other propellants are prohibited.`,
+            `24. Spectators and participants must remain outside the marked launch and landing exclusion zones.`,
+            `25. No one may stand in front of the launcher or approach a pressurized rocket.`,
+            `26. Pressure must be monitored with a suitable gauge and must never exceed the approved limit.`,
+            `27. Never pressurize a cracked, damaged or visibly deformed bottle.`,
+            `28. Launches must be suspended in unsafe weather or if the landing area is not clear.`,
+            `29. Retrieval is permitted only after the safety officer declares the area safe.`,
+            `30. Judges and safety officials may stop any launch deemed unsafe.`]},
+          {t:'9. General Rules',ordered:false,items:[
+            `31. No recovery, parachute, design or innovation points will be awarded. Each team is permitted up to two official launches; the best total attempt score counts.`,
+            `32. Teams must not interfere with other participants or equipment.`,
+            `33. Rockets and launchers must remain compliant after inspection; changes require reinspection.`,
+            `34. Failure to report when called may result in forfeiture of an attempt.`,
+            `35. Judges’ scoring and safety decisions are final.`,
+            `36. Organizers may revise operational requirements for safety or fairness and will communicate changes to all teams.`]},
+          {t:'10. Disqualification',ordered:false,items:[
+            `Use of prohibited propellants or hazardous construction.`,
+            `Exceeding the approved pressure limit or launching without clearance.`,
+            `Failure of mandatory rocket or launcher inspection.`,
+            `Unsafe conduct, interference, or deliberate manipulation of measurements.`,
+            `Repeated refusal to follow safety instructions.`]},
+          {t:'11. Results and Awards',ordered:false,items:[
+            `Teams are ranked by the higher total score achieved in either of their two official launch attempts.`,
+            `First, second and third positions go to the three highest-scoring eligible teams, subject to the tie-break rules.`]}
+        ]},
 
       {id:'sugarRocketry',name:'Sugar Rocketry',form:FORMS.sugarRocketry,
         desc:'Details and rules will be announced soon.',
@@ -1007,14 +1086,37 @@ Every clue matters. Every decision counts. One overlooked detail could change th
           `The judges' and event coordinators' decisions will be final.`]}]},
 
       {id:'visualRecall',name:'Visual Recall',form:FORMS.visualRecall,
-        desc:'Watch a sci-fi clip once, then answer questions on every detail you remember.',
-        meta:[['Clip length','2 minutes'],['Viewing','Once per team']],
-        about:`Think you have an eye for detail and a memory that never misses? Visual Recall: Mission Memory puts your observation and memory skills to the ultimate test. Participants will be shown a video containing different visuals, details and sequences. Watch carefully, remember as much as possible and answer questions based on what you have seen. Every little detail could make the difference between winning and losing. Stay alert, sharpen your focus and take on the mission!`,
-        sections:[{t:'Rules & Regulations',ordered:true,items:[
-          `A two-minute video clip from a science-fiction movie will be played only once for each team.`,
-          `After viewing the clip, teams will be given a set of questions based on what they watched. All answers must be submitted within the allotted time.`,
-          `Different teams will receive different video clips and corresponding sets of questions.`,
-          `Points will be awarded based on the answers submitted and the answer matrix prepared by the organizers before the event.`]}]},
+        desc:'Observe two video clips, remember the details and answer 10 questions within 12 minutes.',
+        meta:[['Total duration','12 minutes'],['Video clips','2 × 2 minutes'],['Questions','10']],
+        about:`Visual Recall tests each participant's observation and memory. Two different video clips, each lasting 2 minutes, will be displayed. Participants must remember the details shown in both clips and answer 10 questions within the 8-minute answering period.`,
+        sections:[
+          {t:'1. Competition Format',ordered:false,items:[
+            `Each participant will be given a total duration of 12 minutes.`,
+            `Two different video clips will be displayed, each lasting 2 minutes.`,
+            `Participants must carefully observe and remember the details shown in both clips.`,
+            `After the clips, participants will be given 8 minutes to answer the questions.`,
+            `A total of 10 questions will be asked based on the two video clips.`]},
+          {t:'2. Answering Rules',ordered:false,items:[
+            `All questions must be answered within the given 8-minute duration.`,
+            `Participants must answer based on what they observed in the video clips.`,
+            `Each correct answer will be awarded marks.`,
+            `Incorrect answers will receive zero marks.`,
+            `No external assistance, mobile phones, or discussions are allowed during the competition.`]},
+          {t:'3. Evaluation Criteria',ordered:false,items:[
+            `A total of 10 questions will be evaluated.`,
+            `Marks will be awarded based on the number of correct answers.`,
+            `The time taken to complete the answers will also be recorded.`,
+            `Participants with higher marks will receive priority in the selection process.`]},
+          {t:'4. Winner Selection',ordered:false,items:[
+            `The participant scoring the highest marks will be declared the winner.`,
+            `If two or more participants score equal marks, the participant who completes the answers in less time will be given priority.`,
+            `The judges' decision will be final.`]},
+          {t:'5. General Rules',ordered:false,items:[
+            `Participants must follow the instructions given by the event coordinators.`,
+            `No extra time will be provided.`,
+            `Any form of malpractice or unfair assistance will lead to disqualification.`,
+            `Participants must maintain discipline throughout the competition.`]}
+        ]},
 
       {id:'freeFire',name:'Free Fire Esports',form:FORMS.freeFire,
         desc:'Four-player squads drop in, loot up and fight to be the last team standing — BOOYAH!',
@@ -1781,6 +1883,8 @@ const EVENT_LOGO_BY_ID={
 };
 
 const EVENT_RULEBOOKS={
+  waterRocketry:{file:'VAIMAANIK_Water_Rocket_Challenge_Official_Rulebook.pdf',title:'Water Rocket Challenge',subtitle:'Water-powered rocket design and flight performance',logo:'rocket',pages:'4 PAGES',status:'OFFICIAL RULEBOOK',
+    coordinators:[['S Syed Salik Sadeem','+91 8660782002'],['Navya','+91 6361595316']]},
   pathFinder:{file:'VAIMAANIK_Path_Finder_Rulebook.pdf',title:'Path Finder',subtitle:'Autonomous robot track challenge',logo:'radar',pages:'1 PAGE',status:'PARTICIPANT RULES',
     coordinators:[['Nischith','9164855405'],['Harsha','88671 51999']]},
   rotorRush:{file:'VAIMAANIK_Rotor_Rush_Official_Rulebook.pdf',title:'Rotor Rush',subtitle:'Outdoor drone racing competition',logo:'drone',pages:'3 PAGES',status:'OFFICIAL RULEBOOK',
