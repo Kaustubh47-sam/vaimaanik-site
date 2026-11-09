@@ -599,9 +599,8 @@ body.modal-open{overflow:hidden;overscroll-behavior:none}
         <div><span class="pass-library-kicker">YOUR FLIGHT COLLECTION</span><h4 class="pass-library-title">Boarding passes</h4></div>
         <span class="pass-count" id="passCount">0 PASSES</span>
       </header>
-      <p class="pass-library-copy" id="passVerifyStatus">Submit the event Google Form, then enter the same email address here. A one-time code will be emailed after the form response is found.</p>
-      <div class="pass-verify"><input id="passEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="Enter the email used in your registration" aria-label="Enter the email used in your Google Form registration"><button id="passVerifyBtn" type="button">Send verification code</button></div>
-      <div class="pass-verify pass-otp-row" id="passOtpRow" hidden><input id="passOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="6-digit email code" aria-label="Enter the six digit verification code"><button id="passOtpBtn" type="button">Confirm code &amp; get pass</button></div>
+      <p class="pass-library-copy" id="passVerifyStatus">Submit the event Google Form, then enter the same email address here. Your pass is issued as soon as your registration is found in the form responses.</p>
+      <div class="pass-verify"><input id="passEmail" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="Enter the email used in your registration" aria-label="Enter the email used in your Google Form registration"><button id="passVerifyBtn" type="button">Verify &amp; get pass</button></div>
       <div class="pass-list" id="passList"><div class="pass-empty">No verified registrations yet. Submit an event form, then return here to verify your email and collect your boarding pass.</div></div>
     </section>
     <p>Every great flight begins with curiosity, courage and a little imagination. Thank you for bringing yours to VAIMAANIK!</p>
@@ -669,10 +668,42 @@ const FORMS={
   freeFire:'https://docs.google.com/forms/d/e/1FAIpQLSerSVSzB3GcymRMNezcHiccvu-JbzJbtSPOl8XwJYTZXcGpTg/viewform?usp=publish-editor',
 };
 
-/* Google Apps Script Web App URL. Paste the deployed URL ending in /exec here. */
+/* ═══════════════════════════════════════════════════════════════════════
+   BOARDING-PASS VERIFICATION — no Apps Script, no server
+   A pass is issued only when the participant's e-mail address is found in
+   that event's Google Form response sheet (Google's own servers = the backend).
+   Set-up for each form (about 2 minutes):
+     1. Form → Responses → "Link to Sheets" (open the linked sheet).
+     2. Add a new tab named  Verify  and paste this ONE formula into cell A1
+        (it shares only the timestamp + e-mail, not names or phone numbers):
+        =ARRAYFORMULA({"Timestamp","Email Address";TEXT('Form Responses 1'!A2:A,"yyyy-mm-dd hh:mm:ss"),'Form Responses 1'!B2:B})
+        · Tab name differs from 'Form Responses 1'? Use your tab's name.
+        · E-mail asked as a normal question (not column B)? Use that column.
+     3. File → Share → Publish to web → choose the Verify tab → format CSV → Publish.
+     4. Copy the link and paste it next to the event below ('' = not connected yet).
+   Google Forms → Settings → Presentation → Confirmation message: add
+        https://YOUR-WEBSITE/?vaimaanik_return=1
+   so participants land back here and the pass window opens by itself.
+   ═══════════════════════════════════════════════════════════════════════ */
 const PASS_VERIFICATION={
-  appsScriptUrl:'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE',
-  returnParameter:'vaimaanik_return'
+  returnParameter:'vaimaanik_return',
+  sheets:{
+    waterRocketry:'',
+    sugarRocketry:'',
+    rotorRush:'',
+    lunaQuest:'',
+    skyStrike:'',
+    pathFinder:'',
+    aeroPrecision:'',
+    virtualWings:'',
+    ghostProtocol:'',
+    bgmi:'',
+    checkmate:'',
+    aeroLens:'',
+    visualRecall:'',
+    freeFire:'',
+    all:''  // common form
+  }
 };
 
 const CONFIG={
@@ -1801,32 +1832,39 @@ function downloadBoardingPass(id){
   x.fillStyle='#3877a8';x.font='700 18px Arial';x.fillText('TEAM VAIMAANIK  ·  KEEP REACHING FOR THE SKIES',78,570);
   const a=document.createElement('a');a.download='VAIMAANIK-'+p.id+'.png';a.href=c.toDataURL('image/png');a.click();
 }
-let jsonpCounter=0;
-let verifyEmail='';
-let activeOtpToken='';
-function passVerificationEndpoint(){return String(PASS_VERIFICATION.appsScriptUrl||'').trim()}
-function passVerificationReady(){return /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/i.test(passVerificationEndpoint())}
-function setOtpMode(show){
-  const row=$('passOtpRow');if(row)row.hidden=!show;
-  if(!show&&$('passOtp'))$('passOtp').value='';
-  if($('passVerifyBtn'))$('passVerifyBtn').textContent=show?'Resend verification code':'Send verification code';
+/* Verification: the participant's e-mail is looked up in each event's published Google response sheet */
+function passSheetUrl(id){const u=String((PASS_VERIFICATION.sheets||{})[id]||'').trim();return /^https:\/\/docs\.google\.com\/spreadsheets\//i.test(u)?u:''}
+function passEventIds(){return Object.keys(PASS_VERIFICATION.sheets||{}).filter(id=>passSheetUrl(id))}
+function passVerificationReady(){return passEventIds().length>0}
+function passEventInfo(id){
+  const e=[...CONFIG.events.technical,...CONFIG.events.nonTechnical].find(x=>x.id===id);
+  return {name:e?e.name:'Event registration',url:(e&&e.form)||CONFIG.formUrl||''};
 }
-function callPassVerification(params,timeoutMs=25000){
-  return new Promise((resolve,reject)=>{
-    const endpoint=passVerificationEndpoint();
-    if(!passVerificationReady()){
-      reject(new Error('Email verification is not connected yet. The website administrator must deploy the supplied Google Apps Script and add its /exec URL to PASS_VERIFICATION.'));return;
-    }
-    const callbackName='__vaimaanikJsonp'+(++jsonpCounter)+'_'+Date.now();
-    const script=document.createElement('script');let finished=false;
-    const cleanup=()=>{if(finished)return;finished=true;clearTimeout(timer);try{delete window[callbackName]}catch(e){window[callbackName]=undefined}script.remove()};
-    const timer=setTimeout(()=>{cleanup();reject(new Error('The verification server did not respond. Check the Apps Script deployment and try again.'))},timeoutMs);
-    window[callbackName]=(payload)=>{cleanup();if(payload&&payload.ok)resolve(payload);else reject(new Error(payload&&payload.message?payload.message:'The verification request failed.'))};
-    script.onerror=()=>{cleanup();reject(new Error('Could not reach the verification server. Confirm the Apps Script URL and its public web-app access.'))};
-    const query=new URLSearchParams({...params,callback:callbackName});
-    script.src=endpoint+(endpoint.includes('?')?'&':'?')+query.toString();
-    document.head.appendChild(script);
-  });
+function parseCsv(text){
+  const rows=[];let row=[],f='',q=false;
+  for(let i=0;i<text.length;i++){const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+    else if(c==='"')q=true;
+    else if(c===','){row.push(f);f=''}
+    else if(c==='\n'||c==='\r'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(f);rows.push(row);row=[];f=''}
+    else f+=c;
+  }
+  if(f!==''||row.length){row.push(f);rows.push(row)}
+  return rows;
+}
+async function findEmailInSheet(id,email){
+  const base=passSheetUrl(id),res=await fetch(base+(base.includes('?')?'&':'?')+'_='+Date.now(),{cache:'no-store'});
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  const rows=parseCsv(await res.text());if(rows.length<2)return null;
+  const head=rows[0].map(h=>String(h).trim().toLowerCase());
+  let ec=head.findIndex(h=>h.includes('email'));if(ec<0)ec=1;
+  let tc=head.findIndex(h=>h.includes('timestamp'));if(tc<0)tc=0;
+  for(let i=rows.length-1;i>=1;i--){
+    if(String(rows[i][ec]||'').trim().toLowerCase()!==email)continue;
+    const ts=String(rows[i][tc]||'').trim(),d=/^\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}/.test(ts)?new Date(ts.replace(' ','T')):null;
+    return {row:i+1,ts,submittedAt:d&&!isNaN(d.getTime())?d.toISOString():new Date().toISOString()};
+  }
+  return null;
 }
 function issueVerifiedBoardingPass(pending,verification){
   if(boardingPasses.some(p=>p.responseId===verification.responseId))return false;
@@ -1840,46 +1878,35 @@ function issueVerifiedBoardingPass(pending,verification){
   boardingPasses.unshift(record);boardingPasses=boardingPasses.slice(0,100);
   persistBoardingPasses();renderBoardingPasses();return true;
 }
-async function requestEmailOtp(){
-  const email=$('passEmail').value.trim().toLowerCase();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){updatePassStatus('Enter a valid email address — the same address used in the event Google Form.');$('passEmail').focus();return}
-  if(!pendingRegistrations.length){updatePassStatus('No pending registration was found on this browser. Open the event registration form from VAIMAANIK, submit it, then return here.');return}
-  if(!passVerificationReady()){updatePassStatus('Email verification is not active yet. The site administrator must deploy the verification service and configure its /exec URL. No pass will be issued until verification is connected.');return}
-  const pending=pendingRegistrations[0];
-  verifyEmail=email;activeOtpToken=pending.token;
-  const btn=$('passVerifyBtn');btn.disabled=true;btn.textContent='Sending…';
-  updatePassStatus('Checking the submitted form response and sending a one-time code…');
+let passRetryTimer=null,passRetryCount=0;
+async function verifyEmailAndIssue(manual){
+  clearTimeout(passRetryTimer);if(manual!==false)passRetryCount=0;
+  const input=$('passEmail'),btn=$('passVerifyBtn'),email=input.value.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){updatePassStatus('Enter a valid email address — the same address used in the event Google Form.');input.focus();return}
+  if(!passVerificationReady()){updatePassStatus('Verification is not connected yet. The website administrator must add the published response-sheet links to PASS_VERIFICATION.');return}
+  btn.disabled=true;btn.textContent='Checking…';updatePassStatus('Looking for your registration…');
+  let issued=0,found=0,failed=0;
   try{
-    const result=await callPassVerification({action:'request',token:pending.token,event:pending.eventId,email,since:pending.createdAt});
-    if(!result.found){setOtpMode(false);updatePassStatus(result.message||'No matching submitted registration was found yet. Submit the Google Form first, then try again.');return}
-    if(!result.sent){if(activeOtpToken)setOtpMode(true);else setOtpMode(false);updatePassStatus(result.message||'A code could not be sent. Try again shortly.');return}
-    setOtpMode(true);updatePassStatus('A 6-digit verification code was sent to '+email+'. Enter it below within 10 minutes.');$('passOtp').focus();
-  }catch(err){setOtpMode(false);updatePassStatus(err.message)}
-  finally{btn.disabled=false;btn.textContent='Resend verification code'}
-}
-async function confirmEmailOtp(){
-  const code=$('passOtp').value.trim();
-  if(!/^\d{6}$/.test(code)){updatePassStatus('Enter the 6-digit code sent to your email.');$('passOtp').focus();return}
-  if(!activeOtpToken||!verifyEmail){updatePassStatus('Request a new verification code first.');setOtpMode(false);return}
-  const pending=pendingRegistrations.find(x=>x.token===activeOtpToken);
-  if(!pending){updatePassStatus('This registration request has expired. Start registration again from the event portal.');setOtpMode(false);return}
-  const btn=$('passOtpBtn');btn.disabled=true;btn.textContent='Verifying…';
-  updatePassStatus('Verifying your email code…');
-  try{
-    const result=await callPassVerification({action:'confirm',token:pending.token,event:pending.eventId,email:verifyEmail,otp:code});
-    if(!result.verified||!result.pass)throw new Error(result.message||'The code could not be verified. Request a new code and try again.');
-    issueVerifiedBoardingPass(pending,result.pass);
-    pendingRegistrations=pendingRegistrations.filter(x=>x.token!==pending.token);persistPendingRegistrations();
-    activeOtpToken='';setOtpMode(false);
-    updatePassStatus('Email verified. Your official boarding pass is now available below.');renderBoardingPasses();
-    if(pendingRegistrations.length)updatePassStatus('Email verified and pass issued. You have '+pendingRegistrations.length+' other pending registration(s); repeat the verification process for the next event.');
-  }catch(err){updatePassStatus(err.message)}
-  finally{btn.disabled=false;btn.textContent='Confirm code & get pass'}
+    // events registered from this browser are checked first, then every other connected event
+    const ids=[...new Set([...pendingRegistrations.map(p=>p.eventId),...passEventIds()])].filter(passSheetUrl);
+    const results=await Promise.all(ids.map(id=>findEmailInSheet(id,email).then(hit=>({id,hit}),()=>{failed++;return {id,hit:null}})));
+    for(const {id,hit} of results){
+      if(!hit)continue;found++;const info=passEventInfo(id);
+      if(issueVerifiedBoardingPass({event:info.name,url:info.url},{event:info.name,responseId:id+'|'+hit.row+'|'+hit.ts,submittedAt:hit.submittedAt}))issued++;
+      pendingRegistrations=pendingRegistrations.filter(p=>p.eventId!==id);
+    }
+    persistPendingRegistrations();
+    if(found){updatePassStatus(issued?'Registration verified! '+issued+' boarding pass'+(issued===1?'':'es')+' issued below.':'Your registration is verified — your boarding pass is already in the list below.');renderBoardingPasses();return}
+    if(failed&&failed===ids.length){updatePassStatus('Could not reach Google Sheets to verify. Check your internet connection and try again.');return}
+    if(passRetryCount<8){passRetryCount++;updatePassStatus('No submitted registration found for that email yet. Google can take a few minutes to publish new responses — checking again automatically…');passRetryTimer=setTimeout(()=>verifyEmailAndIssue(false),30000)}
+    else updatePassStatus('No submitted registration found for that email. Make sure you submitted the form with this exact address, then tap Verify & get pass again.');
+  }catch(err){updatePassStatus('Verification failed. Please try again.')}
+  finally{btn.disabled=false;btn.textContent='Verify & get pass'}
 }
 function beginReturnVerification(){
-  if(!pendingRegistrations.length){renderBoardingPasses();return}
-  if(!passVerificationReady()){updatePassStatus('Registration request found. The website administrator still needs to deploy the email verification service before a verified boarding pass can be issued.');return}
-  updatePassStatus('Registration request found. Enter the same email used in the Google Form and request a one-time verification code.');
+  if(!passVerificationReady()){updatePassStatus('Registration noted. The website administrator still needs to connect verification before a boarding pass can be issued.');return}
+  updatePassStatus('Welcome back! Enter the email you used in the Google Form, then tap Verify & get pass.');
+  const i=$('passEmail');if(i&&!i.value)setTimeout(()=>{try{i.focus()}catch(e){}},300);
 }
 function prepareRegistrationNavigation(ev){
   // The anchor's default navigation must remain untouched: native link activation
@@ -1909,10 +1936,10 @@ function prepareRegistrationNavigation(ev){
   persistPendingRegistrations();
   registrationPrepared=true;
 
-  const apiReady=passVerificationReady();
+  const apiReady=!!passSheetUrl(eventId);
   updatePassStatus(apiReady
-    ?'Registration started. Submit the Google Form, return to this page, then verify the email used in the form.'
-    :'The registration request is saved on this browser. Email verification and verified boarding-pass generation will become available after the administrator deploys the verification service.');
+    ?'Registration started. Submit the Google Form, return to this page, then enter the same email to get your boarding pass.'
+    :'Registration saved on this browser. Your boarding pass will be available once the administrator connects verification for this event.');
   $('fmNote').className='';
   $('fmNote').textContent=anchor.target==='_blank'
     ?'Registration request saved. Complete the Google Form in the new tab, then return here to verify your email and collect your boarding pass.'
@@ -2249,18 +2276,16 @@ $('fmBack').addEventListener('click',ev=>{if(ev.target===$('fmBack'))closeRegist
 
 /* Thank-you letter for the main Clear for takeoff CTA. */
 const thanks=$('thanks');let thanksReturnFocus=null;
-function openThankYou(){renderBoardingPasses();if(pendingRegistrations.length&&!passVerificationReady())updatePassStatus('The registration is saved on this browser, but the email verification service has not been deployed yet. Contact the website administrator.');thanksReturnFocus=document.activeElement;$('passEmail').disabled=false;$('passEmail').readOnly=false;setOtpMode(false);activeOtpToken='';if(pendingRegistrations.length)beginReturnVerification();setLayerOpen(thanks,true);requestAnimationFrame(()=>focusSafely($('thanksCloseTop')))}
+function openThankYou(){renderBoardingPasses();thanksReturnFocus=document.activeElement;$('passEmail').disabled=false;$('passEmail').readOnly=false;if(pendingRegistrations.length)beginReturnVerification();setLayerOpen(thanks,true);requestAnimationFrame(()=>focusSafely($('thanksCloseTop')))}
 function closeThankYou(){setLayerOpen(thanks,false);focusSafely(thanksReturnFocus,document.querySelector('.s4 button'));thanksReturnFocus=null}
-$('passVerifyBtn').onclick=requestEmailOtp;
-$('passOtpBtn').onclick=confirmEmailOtp;
-$('passEmail').addEventListener('keydown',e=>{if(e.key==='Enter')requestEmailOtp()});
-$('passOtp').addEventListener('keydown',e=>{if(e.key==='Enter')confirmEmailOtp()});
+$('passVerifyBtn').onclick=()=>verifyEmailAndIssue(true);
+$('passEmail').addEventListener('keydown',e=>{if(e.key==='Enter')verifyEmailAndIssue(true)});
 $('thanksClose').addEventListener('click',closeThankYou);
 $('thanksCloseTop').addEventListener('click',ev=>{ev.preventDefault();ev.stopPropagation();closeThankYou()});
 $('thanksBack').addEventListener('click',ev=>{if(ev.target===$('thanksBack'))closeThankYou()});
 $('thanksExplore').onclick=()=>{closeThankYou();document.querySelector('.s3').scrollIntoView({behavior:'smooth',block:'start'})};
 const returnedFromGoogleForm=new URLSearchParams(window.location.search).get(PASS_VERIFICATION.returnParameter)==='1';
-if(returnedFromGoogleForm){beginReturnVerification();try{const u=new URL(location.href);u.searchParams.delete(PASS_VERIFICATION.returnParameter);history.replaceState(null,'',u.pathname+(u.search||'')+u.hash)}catch(e){}}
+if(returnedFromGoogleForm){beginReturnVerification();setTimeout(()=>{try{openThankYou()}catch(e){}},1400);try{const u=new URL(location.href);u.searchParams.delete(PASS_VERIFICATION.returnParameter);history.replaceState(null,'',u.pathname+(u.search||'')+u.hash)}catch(e){}}
 // Verification is initiated explicitly by the participant; no silent polling or premature pass issuance.
 addEventListener('keydown',e=>{
   if(e.key!=='Escape')return;
