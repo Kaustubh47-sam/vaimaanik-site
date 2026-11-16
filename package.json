@@ -1,0 +1,20 @@
+{
+  "name": "vaimaanik-certificate-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "VAIMAANIK 2026 event-specific e-certificate portal with ZIP upload and PDF text verification.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "multer": "^1.4.5-lts.2",
+    "pdf-parse": "1.1.1"
+  }
+}
